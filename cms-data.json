@@ -1,0 +1,325 @@
+{
+  "settings": {
+    "brandName": "Sutera Rasuna",
+    "whatsapp": "085156241412",
+    "phone": "0812-3456-789",
+    "email": "info@grandresidence.id",
+    "hours": "Senin - Minggu: 08.00 - 17.00",
+    "address": "Jl. Raya Serpong No. 123, Kec. Serpong, Kota Tangerang Selatan, Banten 15310",
+    "facebook": "#",
+    "instagram": "#",
+    "youtube": "#",
+    "twitter": "#"
+  },
+  "hero": {
+    "badge": "Unit Terbatas — Booking Sekarang",
+    "headline": "Hunian Nyaman",
+    "highlight": "Lokasi Strategis",
+    "subheadline": "Wujudkan rumah impian Anda di kawasan berkembang dengan fasilitas lengkap, keamanan 24 jam, dan akses mudah ke pusat kota.",
+    "priceText": "Mulai dari Rp 500 Jutaan",
+    "backgroundImage": "/uploads/1777103080739-186746370.jpg",
+    "trustBadges": [
+      "Legalitas Lengkap",
+      "Developer Terpercaya",
+      "200+ Unit Terjual"
+    ]
+  },
+  "features": [
+    {
+      "icon": "map-pin",
+      "title": "Lokasi Strategis",
+      "desc": "Dekat pusat perbelanjaan, sekolah, rumah sakit, dan akses tol."
+    },
+    {
+      "icon": "droplets",
+      "title": "Bebas Banjir",
+      "desc": "Dilengkapi sistem drainase modern dan area resapan air."
+    },
+    {
+      "icon": "route",
+      "title": "Akses Mudah",
+      "desc": "5 menit ke gerbang tol dan jalur transportasi umum."
+    },
+    {
+      "icon": "shield-check",
+      "title": "Lingkungan Aman",
+      "desc": "Keamanan 24 jam, CCTV, dan sistem one gate access."
+    },
+    {
+      "icon": "trees",
+      "title": "Asri & Hijau",
+      "desc": "Taman bermain, jogging track, dan ruang terbuka hijau."
+    },
+    {
+      "icon": "star",
+      "title": "Fitur Baru",
+      "desc": "Deskripsi fitur baru"
+    }
+  ],
+  "clusters": [
+    {
+      "id": "sakura",
+      "name": "Cluster Villo",
+      "description": "Hunian asri dengan suasana alam yang menenangkan",
+      "thumbnail": "/uploads/1777103214200-333652424.jpg"
+    },
+    {
+      "id": "magnolia",
+      "name": "Cluster Magnolia",
+      "thumbnail": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "description": "Desain kontemporer untuk keluarga modern"
+    },
+    {
+      "id": "emerald",
+      "name": "Cluster Emerald",
+      "thumbnail": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+      "description": "Kavling premium dengan lahan luas dan privasi maksimal"
+    }
+  ],
+  "properties": [
+    {
+      "id": "type36",
+      "cluster_id": "sakura",
+      "name": "Kappa Type 36/72",
+      "price": "Rp 550 Juta",
+      "badge": "Best Seller",
+      "badgeColor": "blue",
+      "availability": "Tersedia",
+      "rating": "4.9",
+      "bedrooms": "2 KT",
+      "bathrooms": "1 KM",
+      "landArea": "LT 72m²",
+      "image": "/uploads/1777103393042-325141211.jpg",
+      "desc": "Tipe starter yang ideal untuk pasangan muda. Desain minimalis modern dengan pencahayaan alami yang optimal. Dilengkapi taman kecil di depan rumah.",
+      "gallery": [
+        "/uploads/1777103397393-905489550.jpg",
+        "/uploads/1777103400834-84686116.jpg",
+        "/uploads/1777103406100-125261643.jpg",
+        "/uploads/1777103452473-295903963.jpg"
+      ],
+      "specs": {
+        "Luas Tanah": "72 m²",
+        "Luas Bangunan": "36 m²",
+        "Kamar Tidur": "2",
+        "Kamar Mandi": "1",
+        "Lantai": "1",
+        "Carport": "1 Mobil",
+        "Listrik": "1300 Watt",
+        "Air": "PDAM",
+        "Sertifikat": "SHM"
+      }
+    },
+    {
+      "id": "sk-type45",
+      "cluster_id": "sakura",
+      "name": "Type 45/90",
+      "price": "Rp 750 Juta",
+      "badge": "Populer",
+      "badgeColor": "amber",
+      "availability": "Tersedia",
+      "rating": "5.0",
+      "bedrooms": "3 KT",
+      "bathrooms": "2 KM",
+      "landArea": "LT 90m²",
+      "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7c17a4?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1616137466211-f736a1ee2c6c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=900&q=80"
+      ],
+      "desc": "Tipe paling diminati dengan layout optimal untuk keluarga kecil. Ruang tamu luas, dapur bersih terpisah, dan halaman belakang yang nyaman.",
+      "specs": {
+        "Luas Tanah": "90 m²",
+        "Luas Bangunan": "45 m²",
+        "Kamar Tidur": "3",
+        "Kamar Mandi": "2",
+        "Lantai": "1",
+        "Carport": "1 Mobil",
+        "Listrik": "2200 Watt",
+        "Air": "PDAM",
+        "Sertifikat": "SHM"
+      }
+    },
+    {
+      "id": "mg-type45",
+      "cluster_id": "magnolia",
+      "name": "Type 45/90",
+      "price": "Rp 780 Juta",
+      "badge": "Populer",
+      "badgeColor": "amber",
+      "availability": "Tersedia",
+      "rating": "4.8",
+      "bedrooms": "3 KT",
+      "bathrooms": "2 KM",
+      "landArea": "LT 90m²",
+      "image": "https://images.unsplash.com/photo-1600566753376-12c8ab7c17a4?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7c17a4?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1616137466211-f736a1ee2c6c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=900&q=80"
+      ],
+      "desc": "Hunian nyaman di kawasan Magnolia dengan taman privat dan pencahayaan alami. Cocok untuk keluarga muda yang aktif.",
+      "specs": {
+        "Luas Tanah": "90 m²",
+        "Luas Bangunan": "45 m²",
+        "Kamar Tidur": "3",
+        "Kamar Mandi": "2",
+        "Lantai": "1",
+        "Carport": "1 Mobil",
+        "Listrik": "2200 Watt",
+        "Air": "PDAM",
+        "Sertifikat": "SHM"
+      }
+    },
+    {
+      "id": "mg-type60",
+      "cluster_id": "magnolia",
+      "name": "Type 60/120",
+      "price": "Rp 980 Juta",
+      "badge": "Premium",
+      "badgeColor": "green",
+      "availability": "3 Unit Lagi",
+      "rating": "5.0",
+      "bedrooms": "3 KT",
+      "bathrooms": "2 KM",
+      "landArea": "LT 120m²",
+      "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80"
+      ],
+      "desc": "Tipe premium dua lantai dengan ruang keluarga luas, master bedroom mezzanine, dan taman belakang privat di kawasan Magnolia.",
+      "specs": {
+        "Luas Tanah": "120 m²",
+        "Luas Bangunan": "60 m²",
+        "Kamar Tidur": "3",
+        "Kamar Mandi": "2",
+        "Lantai": "1.5 (Mezzanine)",
+        "Carport": "2 Mobil",
+        "Listrik": "2200 Watt",
+        "Air": "PDAM",
+        "Sertifikat": "SHM"
+      }
+    },
+    {
+      "id": "em-type60",
+      "cluster_id": "emerald",
+      "name": "Type 60/120",
+      "price": "Rp 1,1 Miliar",
+      "badge": "Eksklusif",
+      "badgeColor": "green",
+      "availability": "2 Unit Lagi",
+      "rating": "5.0",
+      "bedrooms": "3 KT",
+      "bathrooms": "2 KM",
+      "landArea": "LT 120m²",
+      "image": "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80"
+      ],
+      "desc": "Unit eksklusif di Cluster Emerald dengan kavling pojok, taman luas, dan akses jalan lebih lebar. Privasi maksimal untuk keluarga premium.",
+      "specs": {
+        "Luas Tanah": "120 m²",
+        "Luas Bangunan": "60 m²",
+        "Kamar Tidur": "3",
+        "Kamar Mandi": "2",
+        "Lantai": "1.5 (Mezzanine)",
+        "Carport": "2 Mobil",
+        "Listrik": "3500 Watt",
+        "Air": "PDAM",
+        "Sertifikat": "SHM"
+      }
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Budi Santoso",
+      "role": "Penghuni Type 45 — Cluster Sakura",
+      "text": "Prosesnya sangat mudah dan transparan. Rumah yang kami dapat melebihi ekspektasi. Lingkungannya asri, tenang, dan sangat cocok untuk keluarga muda seperti kami.",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
+      "rating": 5
+    },
+    {
+      "name": "Sari Wijaya",
+      "role": "Penghuni Type 60 — Cluster Magnolia",
+      "text": "Saya bandingkan dengan banyak perumahan lain, Grand Residence paling worth it dari segi harga, kualitas bangunan, dan lokasi. Anak-anak juga senang ada taman bermain.",
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80",
+      "rating": 5
+    },
+    {
+      "name": "Andi Pratama",
+      "role": "Penghuni Type 60 — Cluster Emerald",
+      "text": "Developer-nya sangat profesional dan responsif. Setelah serah terima, layanan after-salesnya juga sangat baik. Sangat merekomendasikan Grand Residence!",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80",
+      "rating": 5
+    }
+  ],
+  "location": {
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2!2d106.82!3d-6.21!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzYuMCJTIDEwNsKwNDknMTIuMCJF!5e0!3m2!1sid!2sid!4v1",
+    "facilities": [
+      {
+        "icon": "graduation-cap",
+        "name": "Sekolah & Universitas",
+        "distance": "3 menit berkendara",
+        "color": "blue"
+      },
+      {
+        "icon": "heart-pulse",
+        "name": "Rumah Sakit",
+        "distance": "5 menit berkendara",
+        "color": "red"
+      },
+      {
+        "icon": "shopping-bag",
+        "name": "Mall & Pusat Belanja",
+        "distance": "7 menit berkendara",
+        "color": "purple"
+      },
+      {
+        "icon": "train-front",
+        "name": "Stasiun & Tol",
+        "distance": "5 menit berkendara",
+        "color": "green"
+      },
+      {
+        "icon": "utensils",
+        "name": "Restoran & Kuliner",
+        "distance": "2 menit berkendara",
+        "color": "orange"
+      },
+      {
+        "icon": "church",
+        "name": "Tempat Ibadah",
+        "distance": "1 menit berjalan kaki",
+        "color": "cyan"
+      }
+    ]
+  },
+  "cta": {
+    "badge": "Promo Terbatas — Diskon hingga 10%",
+    "headline1": "Jangan Lewatkan Kesempatan",
+    "highlight": "Rumah Impian",
+    "subheadline": "Hubungi tim marketing kami sekarang untuk mendapatkan penawaran terbaik, simulasi KPR, dan jadwal kunjungan ke lokasi.",
+    "backgroundImage": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=80",
+    "trustBadges": [
+      "SHM & IMB Lengkap",
+      "KPR Semua Bank",
+      "Free Biaya Notaris",
+      "DP Ringan"
+    ]
+  },
+  "featuresSection": {
+    "headline": "Mengapa Memilih",
+    "highlight": "Sutera Residence",
+    "desc": "Kami menghadirkan hunian modern dengan standar kualitas tertinggi, dilengkapi berbagai fasilitas yang membuat hidup Anda lebih nyaman dan berkualitas.",
+    "btnText": "Pelajari Lebih Lanjut"
+  },
+  "password": "$2b$10$.For8N61peajiZoixd1an.SljC7fTpg1wt9P21A1gd4vaU4HNYBF."
+}

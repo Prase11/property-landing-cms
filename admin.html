@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS Admin — Grand Residence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --gold: #c9a55f;
+      --gold-light: #e0bc80;
+      --dark-1: #080c14;
+      --dark-2: #0a0e18;
+      --dark-3: #0f1520;
+      --dark-card: #141c2a;
+      --dark-card-hover: #1a2438;
+      --dark-border: rgba(201,165,95,0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--dark-1); color: #d4cfc8; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--dark-1); }
+    ::-webkit-scrollbar-thumb { background: rgba(201,165,95,0.2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ── Sidebar ── */
+    .admin-sidebar {
+      background: linear-gradient(180deg, #060a11 0%, #090e18 100%);
+      border-right: 1px solid rgba(201,165,95,0.07);
+    }
+    .sidebar-link {
+      color: #5a6a82;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover {
+      background: rgba(201,165,95,0.06);
+      color: #c8bfb0;
+    }
+    .sidebar-link.active {
+      background: rgba(201,165,95,0.1);
+      color: var(--gold);
+      border-left: 3px solid var(--gold);
+    }
+    .sidebar-link .sidebar-icon { color: #364558; transition: color 0.2s; }
+    .sidebar-link:hover .sidebar-icon { color: #7a8fa8; }
+    .sidebar-link.active .sidebar-icon { color: var(--gold); }
+    .sidebar-divider { border-color: rgba(255,255,255,0.05); }
+
+    /* ── Toast ── */
+    .toast { animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+    /* ── Field Group ── */
+    .field-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #5a6a82;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .field-group input,
+    .field-group textarea,
+    .field-group select {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      outline: none;
+      background: rgba(255,255,255,0.03);
+      color: #ddd7ce;
+    }
+    .field-group input::placeholder,
+    .field-group textarea::placeholder { color: #364558; }
+    .field-group input:focus,
+    .field-group textarea:focus,
+    .field-group select:focus {
+      border-color: rgba(201,165,95,0.5);
+      box-shadow: 0 0 0 3px rgba(201,165,95,0.07);
+      background: rgba(201,165,95,0.03);
+    }
+    .field-group select option { background: #0f1520; color: #ddd7ce; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #c9a55f, #e0bc80);
+      color: #080c14;
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #e0bc80, #c9a55f);
+      box-shadow: 0 6px 20px rgba(201,165,95,0.35);
+      transform: translateY(-1px);
+    }
+    .btn-danger {
+      background: rgba(239,68,68,0.1);
+      color: #f87171;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      border: 1px solid rgba(239,68,68,0.2);
+      cursor: pointer;
+    }
+    .btn-danger:hover { background: #ef4444; color: white; border-color: #ef4444; }
+    .btn-outline {
+      background: rgba(255,255,255,0.04);
+      color: #8a9ab5;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.09);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-outline:hover {
+      border-color: rgba(201,165,95,0.4);
+      color: var(--gold);
+      background: rgba(201,165,95,0.05);
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--dark-card);
+      border-radius: 1rem;
+      border: 1px solid rgba(201,165,95,0.09);
+      padding: 1.5rem;
+    }
+
+    /* ── Card hover ── */
+    .card { transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+    .card:hover { border-color: rgba(201,165,95,0.2); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+    /* ── Image preview ── */
+    .img-preview {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* ── Tailwind overrides for dark theme ── */
+    .text-gray-900 { color: #ede8e0 !important; }
+    .text-gray-800 { color: #d4cfc8 !important; }
+    .text-gray-700 { color: #b8b2aa !important; }
+    .text-gray-600 { color: #8a9ab5 !important; }
+    .text-gray-500 { color: #5a6a82 !important; }
+    .text-gray-400 { color: #3d5168 !important; }
+    .bg-gray-50  { background-color: rgba(255,255,255,0.025) !important; }
+    .bg-gray-100 { background-color: rgba(255,255,255,0.05)  !important; }
+    .border-gray-100 { border-color: rgba(255,255,255,0.06) !important; }
+    .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
+    .border-e2e8f0, [style*="border: 1px solid #e2e8f0"] { border-color: rgba(255,255,255,0.08) !important; }
+
+    /* Blue accents → gold */
+    .text-blue-500, .text-blue-600 { color: var(--gold) !important; }
+    .text-indigo-600 { color: #a78bfa !important; }
+    .bg-indigo-100 { background: rgba(167,139,250,0.1) !important; }
+    .bg-blue-100   { background: rgba(201,165,95,0.1) !important; }
+    .bg-green-100  { background: rgba(52,211,153,0.1) !important; }
+    .bg-purple-100 { background: rgba(167,139,250,0.1) !important; }
+    .bg-amber-100  { background: rgba(251,191,36,0.1) !important; }
+    .bg-indigo-50  { background: rgba(167,139,250,0.07) !important; }
+    .text-indigo-600 { color: #a78bfa !important; }
+
+    /* Quick action hover */
+    .hover\:border-blue-200:hover { border-color: rgba(201,165,95,0.3) !important; }
+    .hover\:bg-blue-50:hover     { background: rgba(201,165,95,0.06) !important; }
+    .hover\:border-red-200:hover { border-color: rgba(239,68,68,0.3) !important; }
+    .hover\:bg-red-50:hover      { background: rgba(239,68,68,0.06) !important; }
+
+    /* Feature / Testimonial / Facility rows */
+    .bg-blue-50  { background: rgba(201,165,95,0.06) !important; }
+    .bg-red-50   { background: rgba(239,68,68,0.06)  !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== LOGIN SCREEN ========== -->
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4" style="background:radial-gradient(ellipse at 40% 40%, rgba(201,165,95,0.07) 0%, transparent 60%), var(--dark-1)">
+    <!-- subtle background texture -->
+    <div class="absolute inset-0 opacity-20" style="background-image:url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23c9a55f\' fill-opacity=\'0.06\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"></div>
+    <div class="relative w-full max-w-sm">
+      <!-- Logo / brand -->
+      <div class="text-center mb-10">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-xl" style="background:linear-gradient(135deg,#c9a55f,#e0bc80)">
+          <i data-lucide="shield-check" class="w-7 h-7" style="color:#080c14"></i>
+        </div>
+        <h1 class="font-serif text-3xl font-light" style="color:#ede8e0;font-family:'Cormorant Garamond',serif">
+          Admin <span style="color:var(--gold)">CMS</span>
+        </h1>
+        <p class="text-sm mt-1" style="color:#5a6a82">Grand Residence Management Panel</p>
+      </div>
+      <!-- Login card -->
+      <div class="rounded-2xl p-7" style="background:var(--dark-card);border:1px solid rgba(201,165,95,0.14);box-shadow:0 24px 60px rgba(0,0,0,0.5)">
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+          <div class="field-group">
+            <label>Password Admin</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required />
+          </div>
+          <p id="loginError" class="text-red-400 text-sm hidden" style="margin-top:-4px">Password salah, coba lagi.</p>
+          <button type="submit" class="btn-primary w-full py-3 text-sm mt-2">
+            Masuk ke Panel Admin
+          </button>
+        </form>
+      </div>
+      <p class="text-center text-xs mt-6" style="color:#2d3d52">
+        <a href="/" class="hover:opacity-80 transition-opacity" style="color:inherit">← Kembali ke website</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== ADMIN LAYOUT ========== -->
+  <div id="adminLayout" class="hidden min-h-screen flex">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar w-64 fixed inset-y-0 left-0 z-40 flex flex-col overflow-y-auto">
+      <!-- Logo -->
+      <div class="p-5" style="border-bottom:1px solid rgba(201,165,95,0.08)">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shrink-0" style="background:linear-gradient(135deg,#c9a55f,#e0bc80)">
+            <i data-lucide="home" class="w-4.5 h-4.5" style="color:#080c14;width:1.1rem;height:1.1rem"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-sm" style="color:#ede8e0;font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:0.01em">Grand<span style="color:var(--gold)">Residence</span></p>
+            <p class="text-xs" style="color:#364558">CMS Admin Panel</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="flex-1 p-3 space-y-1">
+        <button onclick="showPage('dashboard')" class="sidebar-link active w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 sidebar-icon"></i> Dashboard
+        </button>
+        <button onclick="showPage('settings')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="settings" class="w-4 h-4 sidebar-icon"></i> Pengaturan
+        </button>
+        <button onclick="showPage('hero')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="image" class="w-4 h-4 sidebar-icon"></i> Hero Section
+        </button>
+        <button onclick="showPage('features')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="star" class="w-4 h-4 sidebar-icon"></i> Keunggulan
+        </button>
+        <button onclick="showPage('clusters')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="grid-3x3" class="w-4 h-4 sidebar-icon"></i> Cluster
+        </button>
+        <button onclick="showPage('properties')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="building-2" class="w-4 h-4 sidebar-icon"></i> Tipe Properti
+        </button>
+        <button onclick="showPage('testimonials')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="message-square" class="w-4 h-4 sidebar-icon"></i> Testimoni
+        </button>
+        <button onclick="showPage('location')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="map-pin" class="w-4 h-4 sidebar-icon"></i> Lokasi
+        </button>
+        <button onclick="showPage('cta')" class="sidebar-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium">
+          <i data-lucide="megaphone" class="w-4 h-4 sidebar-icon"></i> CTA Section
+        </button>
+      </nav>
+
+      <!-- Footer -->
+      <div class="p-4" style="border-top: 1px solid rgba(255,255,255,0.08);">
+        <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all" style="color: #f87171;" onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='transparent'">
+          <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 ml-64" style="background:var(--dark-2)">
+      <!-- Top bar -->
+      <header class="sticky top-0 z-30 px-8 py-4 flex items-center justify-between" style="background:rgba(8,12,20,0.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,165,95,0.08)">
+        <div>
+          <h1 id="pageTitle" class="text-xl font-semibold" style="color:#ede8e0">Dashboard</h1>
+          <p id="pageSubtitle" class="text-xs mt-0.5" style="color:#3d5168">Overview CMS</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="index.html" target="_blank" class="btn-outline flex items-center gap-2">
+            <i data-lucide="external-link" class="w-4 h-4"></i> Lihat Website
+          </a>
+          <button onclick="exportData()" class="btn-outline flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> Export
+          </button>
+          <label class="btn-outline flex items-center gap-2 cursor-pointer">
+            <i data-lucide="upload" class="w-4 h-4"></i> Import
+            <input type="file" accept=".json" onchange="importData(event)" class="hidden" />
+          </label>
+        </div>
+      </header>
+
+      <div class="p-8">
+
+        <!-- ==================== DASHBOARD ==================== -->
+        <div id="page-dashboard" class="page active">
+          <!-- Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
+            <div class="card flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.2)"><i data-lucide="grid-3x3" class="w-5 h-5" style="color:#a78bfa"></i></div>
+              <div><p class="text-2xl font-bold" style="color:#ede8e0" id="statClusters">3</p><p class="text-xs" style="color:#5a6a82">Cluster</p></div>
+            </div>
+            <div class="card flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(201,165,95,0.12);border:1px solid rgba(201,165,95,0.2)"><i data-lucide="building-2" class="w-5 h-5" style="color:var(--gold)"></i></div>
+              <div><p class="text-2xl font-bold" style="color:#ede8e0" id="statProperties">3</p><p class="text-xs" style="color:#5a6a82">Tipe Properti</p></div>
+            </div>
+            <div class="card flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2)"><i data-lucide="message-square" class="w-5 h-5" style="color:#34d399"></i></div>
+              <div><p class="text-2xl font-bold" style="color:#ede8e0" id="statTestimonials">3</p><p class="text-xs" style="color:#5a6a82">Testimoni</p></div>
+            </div>
+            <div class="card flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.18)"><i data-lucide="star" class="w-5 h-5" style="color:#c084fc"></i></div>
+              <div><p class="text-2xl font-bold" style="color:#ede8e0" id="statFeatures">5</p><p class="text-xs" style="color:#5a6a82">Keunggulan</p></div>
+            </div>
+            <div class="card flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2)"><i data-lucide="map-pin" class="w-5 h-5" style="color:#fbbf24"></i></div>
+              <div><p class="text-2xl font-bold" style="color:#ede8e0" id="statFacilities">6</p><p class="text-xs" style="color:#5a6a82">Fasilitas</p></div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <h3 class="font-semibold text-sm mb-5" style="color:#ede8e0;text-transform:uppercase;letter-spacing:0.08em">Quick Actions</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <button onclick="showPage('hero')" class="flex flex-col items-center gap-2.5 p-4 rounded-xl transition-all hover:-translate-y-0.5" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)" onmouseover="this.style.borderColor='rgba(201,165,95,0.3)';this.style.background='rgba(201,165,95,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.background='rgba(255,255,255,0.02)'">
+                <i data-lucide="image" class="w-6 h-6" style="color:var(--gold)"></i><span class="text-sm font-medium" style="color:#b8b2aa">Edit Hero</span>
+              </button>
+              <button onclick="showPage('properties')" class="flex flex-col items-center gap-2.5 p-4 rounded-xl transition-all hover:-translate-y-0.5" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)" onmouseover="this.style.borderColor='rgba(52,211,153,0.3)';this.style.background='rgba(52,211,153,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.background='rgba(255,255,255,0.02)'">
+                <i data-lucide="plus-circle" class="w-6 h-6" style="color:#34d399"></i><span class="text-sm font-medium" style="color:#b8b2aa">Tambah Properti</span>
+              </button>
+              <button onclick="showPage('testimonials')" class="flex flex-col items-center gap-2.5 p-4 rounded-xl transition-all hover:-translate-y-0.5" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)" onmouseover="this.style.borderColor='rgba(167,139,250,0.3)';this.style.background='rgba(167,139,250,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.background='rgba(255,255,255,0.02)'">
+                <i data-lucide="message-square" class="w-6 h-6" style="color:#c084fc"></i><span class="text-sm font-medium" style="color:#b8b2aa">Tambah Testimoni</span>
+              </button>
+              <button onclick="resetAllData()" class="flex flex-col items-center gap-2.5 p-4 rounded-xl transition-all hover:-translate-y-0.5" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)" onmouseover="this.style.borderColor='rgba(239,68,68,0.3)';this.style.background='rgba(239,68,68,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.background='rgba(255,255,255,0.02)'">
+                <i data-lucide="rotate-ccw" class="w-6 h-6" style="color:#f87171"></i><span class="text-sm font-medium" style="color:#b8b2aa">Reset Default</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== SETTINGS ==================== -->
+        <div id="page-settings" class="page">
+          <form onsubmit="saveSettings(event)" class="max-w-2xl space-y-6">
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5" style="color:var(--gold)"></i> Pengaturan Umum</h3>
+              <div class="field-group">
+                <label>Nama Brand</label>
+                <input type="text" id="settBrandName" />
+              </div>
+              <div class="field-group">
+                <label>Nomor WhatsApp (tanpa +, contoh: 628123456789)</label>
+                <input type="text" id="settWhatsapp" />
+              </div>
+              <div class="field-group">
+                <label>Nomor Telepon Display</label>
+                <input type="text" id="settPhone" />
+              </div>
+              <div class="field-group">
+                <label>Email</label>
+                <input type="email" id="settEmail" />
+              </div>
+              <div class="field-group">
+                <label>Jam Operasional</label>
+                <input type="text" id="settHours" />
+              </div>
+              <div class="field-group">
+                <label>Alamat Lengkap</label>
+                <textarea id="settAddress" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="share-2" class="w-5 h-5" style="color:var(--gold)"></i> Social Media</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="field-group"><label>Facebook URL</label><input type="text" id="settFacebook" /></div>
+                <div class="field-group"><label>Instagram URL</label><input type="text" id="settInstagram" /></div>
+                <div class="field-group"><label>YouTube URL</label><input type="text" id="settYoutube" /></div>
+                <div class="field-group"><label>Twitter/X URL</label><input type="text" id="settTwitter" /></div>
+              </div>
+            </div>
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="lock" class="w-5 h-5" style="color:var(--gold)"></i> Ubah Password</h3>
+              <div class="field-group">
+                <label>Password Baru (kosongkan jika tidak ingin mengubah)</label>
+                <input type="password" id="settNewPassword" placeholder="Password baru" />
+              </div>
+            </div>
+            <button type="submit" class="btn-primary flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> Simpan Pengaturan</button>
+          </form>
+        </div>
+
+        <!-- ==================== HERO SECTION ==================== -->
+        <div id="page-hero" class="page">
+          <form onsubmit="saveHero(event)" class="max-w-2xl space-y-6">
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="image" class="w-5 h-5" style="color:var(--gold)"></i> Hero Section</h3>
+              <div class="field-group">
+                <label>Badge Text</label>
+                <input type="text" id="heroBadge" />
+              </div>
+              <div class="field-group">
+                <label>Headline (baris 1)</label>
+                <input type="text" id="heroHeadline" />
+              </div>
+              <div class="field-group">
+                <label>Headline Highlight (baris 2, warna biru)</label>
+                <input type="text" id="heroHighlight" />
+              </div>
+              <div class="field-group">
+                <label>Subheadline</label>
+                <textarea id="heroSubheadline" rows="3"></textarea>
+              </div>
+              <div class="field-group">
+                <label>Harga Text</label>
+                <input type="text" id="heroPriceText" />
+              </div>
+              <div class="field-group">
+                <label>Background Image</label>
+                <div class="flex gap-2">
+                  <input type="text" id="heroBackground" class="flex-1 border border-gray-200 rounded-xl px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" placeholder="https://... atau klik Upload" oninput="updateHeroPreview()" />
+                  <label class="btn-outline flex items-center gap-2 cursor-pointer flex-shrink-0">
+                    <i data-lucide="upload" class="w-4 h-4"></i> Upload Foto
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'heroBackground', updateHeroPreview)" />
+                  </label>
+                </div>
+                <img id="heroBackgroundPreview" class="img-preview mt-3 w-full h-48 object-cover rounded-xl" />
+              </div>
+            </div>
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900">Trust Badges</h3>
+              <div id="heroBadgesContainer"></div>
+              <button type="button" onclick="addHeroBadge()" class="btn-outline flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Badge</button>
+            </div>
+            <button type="submit" class="btn-primary flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> Simpan Hero</button>
+          </form>
+        </div>
+
+        <!-- ==================== FEATURES ==================== -->
+        <div id="page-features" class="page">
+          <div class="max-w-3xl space-y-6">
+            <!-- Section Header Card -->
+            <div class="card">
+              <div class="flex items-center justify-between mb-5">
+                <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="type" class="w-5 h-5" style="color:var(--gold)"></i> Header Seksi Keunggulan</h3>
+                <button onclick="saveFeatureSection()" class="btn-primary flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> Simpan</button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="field-group">
+                  <label>Teks Judul (sebelum italic)</label>
+                  <input type="text" id="fsHeadline" placeholder="Mengapa Memilih" />
+                </div>
+                <div class="field-group">
+                  <label>Teks Italic / Highlight (emas)</label>
+                  <input type="text" id="fsHighlight" placeholder="Grand Residence?" />
+                </div>
+                <div class="field-group sm:col-span-2">
+                  <label>Deskripsi</label>
+                  <textarea id="fsDesc" rows="2" placeholder="Kami menghadirkan hunian modern..."></textarea>
+                </div>
+                <div class="field-group">
+                  <label>Teks Tombol</label>
+                  <input type="text" id="fsBtnText" placeholder="Pelajari Lebih Lanjut" />
+                </div>
+              </div>
+            </div>
+            <!-- Feature Items Card -->
+            <div class="card">
+              <div class="flex items-center justify-between mb-5">
+                <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="star" class="w-5 h-5" style="color:var(--gold)"></i> Keunggulan</h3>
+                <button onclick="addFeature()" class="btn-primary flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah</button>
+              </div>
+              <div id="featuresContainer" class="space-y-4"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== CLUSTERS ==================== -->
+        <div id="page-clusters" class="page">
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-gray-900 text-lg">Cluster Perumahan</h3>
+                <p class="text-sm text-gray-500 mt-0.5">Kelola kawasan/cluster yang tersedia di perumahan ini.</p>
+              </div>
+              <button onclick="addCluster()" class="btn-primary flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Cluster</button>
+            </div>
+            <div id="clustersContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+          </div>
+        </div>
+
+        <!-- ==================== PROPERTIES ==================== -->
+        <div id="page-properties" class="page">
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-gray-900 text-lg">Tipe Properti</h3>
+              <button onclick="addProperty()" class="btn-primary flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Properti</button>
+            </div>
+            <div id="propertiesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+          </div>
+        </div>
+
+        <!-- ==================== TESTIMONIALS ==================== -->
+        <div id="page-testimonials" class="page">
+          <div class="max-w-3xl space-y-6">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-gray-900 text-lg">Testimoni</h3>
+              <button onclick="addTestimonial()" class="btn-primary flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Testimoni</button>
+            </div>
+            <div id="testimonialsContainer" class="space-y-4"></div>
+          </div>
+        </div>
+
+        <!-- ==================== LOCATION ==================== -->
+        <div id="page-location" class="page">
+          <form onsubmit="saveLocation(event)" class="max-w-2xl space-y-6">
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="map" class="w-5 h-5" style="color:var(--gold)"></i> Google Maps</h3>
+              <div class="field-group">
+                <label>Google Maps Embed URL (src dari iframe)</label>
+                <textarea id="locMapUrl" rows="3" placeholder="https://www.google.com/maps/embed?pb=..."></textarea>
+              </div>
+            </div>
+            <div class="card space-y-5">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="compass" class="w-5 h-5" style="color:var(--gold)"></i> Fasilitas Terdekat</h3>
+                <button type="button" onclick="addFacility()" class="btn-outline flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah</button>
+              </div>
+              <div id="facilitiesContainer" class="space-y-3"></div>
+            </div>
+            <button type="submit" class="btn-primary flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> Simpan Lokasi</button>
+          </form>
+        </div>
+
+        <!-- ==================== CTA SECTION ==================== -->
+        <div id="page-cta" class="page">
+          <form onsubmit="saveCta(event)" class="max-w-2xl space-y-6">
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900 flex items-center gap-2"><i data-lucide="megaphone" class="w-5 h-5" style="color:var(--gold)"></i> Final CTA Section</h3>
+              <div class="field-group">
+                <label>Promo Badge Text</label>
+                <input type="text" id="ctaBadge" />
+              </div>
+              <div class="field-group">
+                <label>Headline (baris 1)</label>
+                <input type="text" id="ctaHeadline1" />
+              </div>
+              <div class="field-group">
+                <label>Headline Highlight (baris 2, warna kuning)</label>
+                <input type="text" id="ctaHighlight" />
+              </div>
+              <div class="field-group">
+                <label>Subheadline</label>
+                <textarea id="ctaSubheadline" rows="3"></textarea>
+              </div>
+              <div class="field-group">
+                <label>Background Image URL</label>
+                <div class="flex gap-2">
+                  <input type="text" id="ctaBackground" class="flex-1" placeholder="https://... atau klik Upload" oninput="updateCtaPreview()" />
+                  <label class="btn-outline flex items-center gap-2 cursor-pointer flex-shrink-0">
+                    <i data-lucide="upload" class="w-4 h-4"></i> Upload Foto
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'ctaBackground', updateCtaPreview)" />
+                  </label>
+                </div>
+                <img id="ctaBackgroundPreview" class="img-preview mt-2 w-full h-32 object-cover rounded-xl" />
+              </div>
+            </div>
+            <div class="card space-y-5">
+              <h3 class="font-bold text-gray-900">Trust Badges</h3>
+              <div id="ctaBadgesContainer"></div>
+              <button type="button" onclick="addCtaBadge()" class="btn-outline flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Badge</button>
+            </div>
+            <button type="submit" class="btn-primary flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> Simpan CTA</button>
+          </form>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed top-6 right-6 z-[999] space-y-3"></div>
+
+  <script>
+    // =====================================================
+    // DEFAULT DATA
+    // =====================================================
+    const DEFAULT_DATA = {
+      password: 'admin123',
+      settings: {
+        brandName: 'Sutra Rasuna',
+        whatsapp: '628123456789',
+        phone: '0812-3456-789',
+        email: 'info@grandresidence.id',
+        hours: 'Senin - Minggu: 08.00 - 17.00',
+        address: 'Jl. Raya Serpong No. 123, Kec. Serpong, Kota Tangerang Selatan, Banten 15310',
+        facebook: '#',
+        instagram: '#',
+        youtube: '#',
+        twitter: '#',
+      },
+      hero: {
+        badge: 'Unit Terbatas — Booking Sekarang',
+        headline: 'Hunian Nyaman',
+        highlight: 'Lokasi Strategis',
+        subheadline: 'Wujudkan rumah impian Anda di kawasan berkembang dengan fasilitas lengkap, keamanan 24 jam, dan akses mudah ke pusat kota.',
+        priceText: 'Mulai dari Rp 500 Jutaan',
+        backgroundImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80',
+        trustBadges: ['Legalitas Lengkap', 'Developer Terpercaya', '200+ Unit Terjual'],
+      },
+      featuresSection: {
+        headline: 'Mengapa Memilih',
+        highlight: 'Grand Residence?',
+        desc: 'Kami menghadirkan hunian modern dengan standar kualitas tertinggi, dilengkapi berbagai fasilitas yang membuat hidup Anda lebih nyaman dan berkualitas.',
+        btnText: 'Pelajari Lebih Lanjut',
+      },
+      features: [
+        { icon: 'map-pin', title: 'Lokasi Strategis', desc: 'Dekat pusat perbelanjaan, sekolah, rumah sakit, dan akses tol.' },
+        { icon: 'droplets', title: 'Bebas Banjir', desc: 'Dilengkapi sistem drainase modern dan area resapan air.' },
+        { icon: 'route', title: 'Akses Mudah', desc: '5 menit ke gerbang tol dan jalur transportasi umum.' },
+        { icon: 'shield-check', title: 'Lingkungan Aman', desc: 'Keamanan 24 jam, CCTV, dan sistem one gate access.' },
+        { icon: 'trees', title: 'Asri & Hijau', desc: 'Taman bermain, jogging track, dan ruang terbuka hijau.' },
+      ],
+      clusters: [
+        { id: 'sakura', name: 'Cluster Sakura', thumbnail: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80', description: 'Hunian asri dengan suasana alam yang menenangkan' },
+        { id: 'magnolia', name: 'Cluster Magnolia', thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80', description: 'Desain kontemporer untuk keluarga modern' },
+        { id: 'emerald', name: 'Cluster Emerald', thumbnail: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80', description: 'Kavling premium dengan lahan luas dan privasi maksimal' },
+      ],
+      properties: [
+        {
+          id: 'type36', cluster_id: 'sakura', name: 'Type 36/72', price: 'Rp 550 Juta',
+          badge: 'Best Seller', badgeColor: 'blue', availability: 'Tersedia', rating: '4.9',
+          bedrooms: '2 KT', bathrooms: '1 KM', landArea: 'LT 72m²',
+          image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80',
+          gallery: [
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80',
+          ],
+          desc: 'Tipe starter yang ideal untuk pasangan muda. Desain minimalis modern dengan pencahayaan alami yang optimal. Dilengkapi taman kecil di depan rumah.',
+          specs: { 'Luas Tanah': '72 m²', 'Luas Bangunan': '36 m²', 'Kamar Tidur': '2', 'Kamar Mandi': '1', 'Lantai': '1', 'Carport': '1 Mobil', 'Listrik': '1300 Watt', 'Air': 'PDAM', 'Sertifikat': 'SHM' },
+        },
+        {
+          id: 'type45', name: 'Type 45/90', price: 'Rp 750 Juta',
+          badge: 'Populer', badgeColor: 'amber', availability: 'Tersedia', rating: '5.0',
+          bedrooms: '3 KT', bathrooms: '2 KM', landArea: 'LT 90m²',
+          image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+          gallery: [
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600566753376-12c8ab7c17a4?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1616137466211-f736a1ee2c6c?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=900&q=80',
+          ],
+          desc: 'Tipe paling diminati dengan layout optimal untuk keluarga kecil. Ruang tamu luas, dapur bersih terpisah, dan halaman belakang yang nyaman.',
+          specs: { 'Luas Tanah': '90 m²', 'Luas Bangunan': '45 m²', 'Kamar Tidur': '3', 'Kamar Mandi': '2', 'Lantai': '1', 'Carport': '1 Mobil', 'Listrik': '2200 Watt', 'Air': 'PDAM', 'Sertifikat': 'SHM' },
+        },
+        {
+          id: 'type60', name: 'Type 60/120', price: 'Rp 980 Juta',
+          badge: 'Premium', badgeColor: 'green', availability: '3 Unit Lagi', rating: '5.0',
+          bedrooms: '3 KT', bathrooms: '2 KM', landArea: 'LT 120m²',
+          image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
+          gallery: [
+            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80',
+          ],
+          desc: 'Tipe premium dengan desain dua lantai semi-mezzanine. Master bedroom luas dengan walk-in closet, ruang keluarga yang lapang, dan taman belakang.',
+          specs: { 'Luas Tanah': '120 m²', 'Luas Bangunan': '60 m²', 'Kamar Tidur': '3', 'Kamar Mandi': '2', 'Lantai': '1.5 (Mezzanine)', 'Carport': '2 Mobil', 'Listrik': '2200 Watt', 'Air': 'PDAM', 'Sertifikat': 'SHM' },
+        },
+      ],
+      testimonials: [
+        { name: 'Budi Santoso', role: 'Penghuni Type 45', text: 'Prosesnya sangat mudah dan transparan. Rumah yang kami dapat melebihi ekspektasi. Lingkungannya asri, tenang, dan sangat cocok untuk keluarga muda seperti kami.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80', rating: 5 },
+        { name: 'Sari Wijaya', role: 'Penghuni Type 60', text: 'Saya bandingkan dengan banyak perumahan lain, Grand Residence paling worth it dari segi harga, kualitas bangunan, dan lokasi. Anak-anak juga senang ada taman bermain.', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80', rating: 5 },
+        { name: 'Andi Pratama', role: 'Penghuni Type 36', text: 'Developer-nya sangat profesional dan responsif. Setelah serah terima, layanan after-salesnya juga sangat baik. Sangat merekomendasikan Grand Residence!', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80', rating: 5 },
+      ],
+      location: {
+        mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2!2d106.82!3d-6.21!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzYuMCJTIDEwNsKwNDknMTIuMCJF!5e0!3m2!1sid!2sid!4v1',
+        facilities: [
+          { icon: 'graduation-cap', name: 'Sekolah & Universitas', distance: '3 menit berkendara', color: 'blue' },
+          { icon: 'heart-pulse', name: 'Rumah Sakit', distance: '5 menit berkendara', color: 'red' },
+          { icon: 'shopping-bag', name: 'Mall & Pusat Belanja', distance: '7 menit berkendara', color: 'purple' },
+          { icon: 'train-front', name: 'Stasiun & Tol', distance: '5 menit berkendara', color: 'green' },
+          { icon: 'utensils', name: 'Restoran & Kuliner', distance: '2 menit berkendara', color: 'orange' },
+          { icon: 'church', name: 'Tempat Ibadah', distance: '1 menit berjalan kaki', color: 'cyan' },
+        ],
+      },
+      cta: {
+        badge: 'Promo Terbatas — Diskon hingga 10%',
+        headline1: 'Jangan Lewatkan Kesempatan',
+        highlight: 'Rumah Impian',
+        subheadline: 'Hubungi tim marketing kami sekarang untuk mendapatkan penawaran terbaik, simulasi KPR, dan jadwal kunjungan ke lokasi.',
+        backgroundImage: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=80',
+        trustBadges: ['SHM & IMB Lengkap', 'KPR Semua Bank', 'Free Biaya Notaris', 'DP Ringan'],
+      },
+    };
+
+    // =====================================================
+    // DATA MANAGEMENT (Backend API)
+    // =====================================================
+    let _cmsCache = { ...DEFAULT_DATA };
+
+    function getData() {
+      return _cmsCache;
+    }
+
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/cms/admin', { headers: getAuthHeaders() });
+        if (res.status === 401) { handleUnauthorized(); return _cmsCache; }
+        if (res.ok) {
+          _cmsCache = await res.json();
+          // Merge with defaults for missing keys
+          Object.keys(DEFAULT_DATA).forEach(k => {
+            if (k !== 'password' && _cmsCache[k] === undefined) _cmsCache[k] = DEFAULT_DATA[k];
+          });
+        }
+      } catch(e) {
+        console.error('Failed to fetch CMS data:', e);
+        _cmsCache = { ...DEFAULT_DATA };
+      }
+      return _cmsCache;
+    }
+
+    function saveData(data) {
+      _cmsCache = data;
+      fetch('/api/cms', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify(data),
+      }).then(r => { if (r.status === 401) handleUnauthorized(); })
+        .catch(e => console.error('Save failed:', e));
+    }
+
+    async function uploadImage(e, targetId, callback) {
+      if (!e.target.files || e.target.files.length === 0) return;
+      
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const inputEl = document.getElementById(targetId);
+      const originalValue = inputEl.value;
+      inputEl.value = 'Mengunggah...';
+      inputEl.disabled = true;
+
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', headers: getAuthHeaders(), body: formData });
+        const result = await res.json();
+        
+        if (result.success) {
+          inputEl.value = result.url;
+          toast('Gambar berhasil diunggah!');
+          if (callback) callback();
+        } else {
+          inputEl.value = originalValue;
+          toast(result.message || 'Gagal unggah', 'error');
+        }
+      } catch (err) {
+        inputEl.value = originalValue;
+        toast('Terjadi kesalahan koneksi', 'error');
+      } finally {
+        inputEl.disabled = false;
+        e.target.value = ''; // Reset input
+      }
+    }
+
+    function toast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const styles = {
+        success: 'background:rgba(20,28,42,0.97);border:1px solid rgba(52,211,153,0.35);color:#34d399',
+        error:   'background:rgba(20,28,42,0.97);border:1px solid rgba(239,68,68,0.35);color:#f87171',
+        info:    'background:rgba(20,28,42,0.97);border:1px solid rgba(201,165,95,0.35);color:#c9a55f',
+      };
+      const icons = { success: 'check-circle', error: 'alert-circle', info: 'info' };
+      const div = document.createElement('div');
+      div.className = `toast flex items-center gap-3 px-5 py-3 rounded-xl shadow-2xl text-sm font-medium`;
+      div.setAttribute('style', (styles[type] || styles.info) + ';backdrop-filter:blur(12px)');
+      div.innerHTML = `<i data-lucide="${icons[type]}" class="w-5 h-5 shrink-0"></i> ${message}`;
+      container.appendChild(div);
+      lucide.createIcons();
+      setTimeout(() => div.remove(), 3000);
+    }
+
+    // =====================================================
+    // AUTH
+    // =====================================================
+    function getToken() {
+      return sessionStorage.getItem('gr_cms_token');
+    }
+
+    function getAuthHeaders() {
+      return { 'Authorization': 'Bearer ' + getToken() };
+    }
+
+    function handleUnauthorized() {
+      sessionStorage.removeItem('gr_cms_token');
+      toast('Sesi kedaluwarsa, silakan login kembali', 'error');
+      setTimeout(() => location.reload(), 1500);
+    }
+
+    function checkAuth() {
+      return !!getToken();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('loginPassword').value;
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwd }),
+        });
+        const result = await res.json();
+        if (res.ok && result.token) {
+          sessionStorage.setItem('gr_cms_token', result.token);
+          document.getElementById('loginScreen').classList.add('hidden');
+          document.getElementById('adminLayout').classList.remove('hidden');
+          document.getElementById('adminLayout').classList.add('flex');
+          await loadAllPages();
+          toast('Login berhasil!');
+        } else {
+          document.getElementById('loginError').classList.remove('hidden');
+        }
+      } catch(err) {
+        toast('Gagal terhubung ke server', 'error');
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('gr_cms_token');
+      location.reload();
+    }
+
+    // =====================================================
+    // NAVIGATION
+    // =====================================================
+    const pageTitles = {
+      dashboard: ['Dashboard', 'Overview konten website'],
+      settings: ['Pengaturan', 'Konfigurasi umum & kontak'],
+      hero: ['Hero Section', 'Edit tampilan utama'],
+      features: ['Keunggulan', 'Kelola fitur unggulan'],
+      clusters: ['Cluster', 'Kelola kawasan/cluster perumahan'],
+      properties: ['Tipe Properti', 'Kelola unit properti per cluster'],
+      testimonials: ['Testimoni', 'Kelola testimoni pelanggan'],
+      location: ['Lokasi', 'Kelola peta & fasilitas'],
+      cta: ['CTA Section', 'Edit section call to action'],
+    };
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l => {
+        if (l.getAttribute('onclick')?.includes(pageId)) l.classList.add('active');
+      });
+      document.getElementById('pageTitle').textContent = pageTitles[pageId]?.[0] || '';
+      document.getElementById('pageSubtitle').textContent = pageTitles[pageId]?.[1] || '';
+    }
+
+    // =====================================================
+    // LOAD ALL PAGES
+    // =====================================================
+    async function loadAllPages() {
+      const data = await fetchData();
+      loadSettings(data);
+      loadHero(data);
+      loadFeatures(data);
+      loadClusters(data);
+      loadProperties(data);
+      loadTestimonials(data);
+      loadLocation(data);
+      loadCta(data);
+      updateDashboardStats(data);
+    }
+
+    function updateDashboardStats(data) {
+      document.getElementById('statClusters').textContent = data.clusters?.length || 0;
+      document.getElementById('statProperties').textContent = data.properties?.length || 0;
+      document.getElementById('statTestimonials').textContent = data.testimonials?.length || 0;
+      document.getElementById('statFeatures').textContent = data.features?.length || 0;
+      document.getElementById('statFacilities').textContent = data.location?.facilities?.length || 0;
+    }
+
+    // =====================================================
+    // SETTINGS
+    // =====================================================
+    function loadSettings(data) {
+      const s = data.settings || {};
+      document.getElementById('settBrandName').value = s.brandName || '';
+      document.getElementById('settWhatsapp').value = s.whatsapp || '';
+      document.getElementById('settPhone').value = s.phone || '';
+      document.getElementById('settEmail').value = s.email || '';
+      document.getElementById('settHours').value = s.hours || '';
+      document.getElementById('settAddress').value = s.address || '';
+      document.getElementById('settFacebook').value = s.facebook || '';
+      document.getElementById('settInstagram').value = s.instagram || '';
+      document.getElementById('settYoutube').value = s.youtube || '';
+      document.getElementById('settTwitter').value = s.twitter || '';
+    }
+
+    function saveSettings(e) {
+      e.preventDefault();
+      const data = getData();
+      data.settings = {
+        brandName: document.getElementById('settBrandName').value,
+        whatsapp: document.getElementById('settWhatsapp').value,
+        phone: document.getElementById('settPhone').value,
+        email: document.getElementById('settEmail').value,
+        hours: document.getElementById('settHours').value,
+        address: document.getElementById('settAddress').value,
+        facebook: document.getElementById('settFacebook').value,
+        instagram: document.getElementById('settInstagram').value,
+        youtube: document.getElementById('settYoutube').value,
+        twitter: document.getElementById('settTwitter').value,
+      };
+      saveData(data);
+      const newPwd = document.getElementById('settNewPassword').value.trim();
+      if (newPwd) {
+        if (newPwd.length < 4) { toast('Password minimal 4 karakter', 'error'); return; }
+        fetch('/api/password', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+          body: JSON.stringify({ newPassword: newPwd }),
+        }).then(async r => {
+          const result = await r.json();
+          if (r.ok) {
+            document.getElementById('settNewPassword').value = '';
+            toast('Pengaturan & password berhasil disimpan!');
+          } else {
+            toast(result.message || 'Gagal ubah password', 'error');
+          }
+        });
+        return;
+      }
+      toast('Pengaturan berhasil disimpan!');
+    }
+
+    // =====================================================
+    // HERO
+    // =====================================================
+    function updateHeroPreview() {
+      const url = document.getElementById('heroBackground').value;
+      document.getElementById('heroBackgroundPreview').src = url;
+    }
+
+    function updateCtaPreview() {
+      const url = document.getElementById('ctaBackground').value;
+      document.getElementById('ctaBackgroundPreview').src = url;
+    }
+
+    function loadHero(data) {
+      const h = data.hero || {};
+      document.getElementById('heroBadge').value = h.badge || '';
+      document.getElementById('heroHeadline').value = h.headline || '';
+      document.getElementById('heroHighlight').value = h.highlight || '';
+      document.getElementById('heroSubheadline').value = h.subheadline || '';
+      document.getElementById('heroPriceText').value = h.priceText || '';
+      document.getElementById('heroBackground').value = h.backgroundImage || '';
+      document.getElementById('heroBackgroundPreview').src = h.backgroundImage || '';
+      renderHeroBadges(h.trustBadges || []);
+    }
+
+    function renderHeroBadges(badges) {
+      const container = document.getElementById('heroBadgesContainer');
+      container.innerHTML = badges.map((b, i) => `
+        <div class="flex items-center gap-2 mb-2">
+          <input type="text" value="${b}" class="hero-badge-input flex-1" style="padding:0.5rem 0.75rem;border:1px solid #e2e8f0;border-radius:0.5rem;font-size:0.875rem;" />
+          <button type="button" onclick="removeHeroBadge(${i})" class="text-red-400 hover:text-red-600 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addHeroBadge() {
+      const data = getData();
+      data.hero.trustBadges = data.hero.trustBadges || [];
+      data.hero.trustBadges.push('New Badge');
+      saveData(data);
+      renderHeroBadges(data.hero.trustBadges);
+    }
+
+    function removeHeroBadge(i) {
+      const data = getData();
+      data.hero.trustBadges.splice(i, 1);
+      saveData(data);
+      renderHeroBadges(data.hero.trustBadges);
+    }
+
+    function saveHero(e) {
+      e.preventDefault();
+      const data = getData();
+      const badgeInputs = document.querySelectorAll('.hero-badge-input');
+      data.hero = {
+        badge: document.getElementById('heroBadge').value,
+        headline: document.getElementById('heroHeadline').value,
+        highlight: document.getElementById('heroHighlight').value,
+        subheadline: document.getElementById('heroSubheadline').value,
+        priceText: document.getElementById('heroPriceText').value,
+        backgroundImage: document.getElementById('heroBackground').value,
+        trustBadges: Array.from(badgeInputs).map(i => i.value),
+      };
+      saveData(data);
+      toast('Hero section berhasil disimpan!');
+    }
+
+    // =====================================================
+    // FEATURES
+    // =====================================================
+    const ICON_OPTIONS = ['map-pin','droplets','route','shield-check','trees','home','star','heart','zap','award','sun','umbrella','key','lock','wifi','car','baby','dog','coffee','book'];
+
+    function loadFeatures(data) {
+      const fs = data.featuresSection || {};
+      document.getElementById('fsHeadline').value = fs.headline || 'Mengapa Memilih';
+      document.getElementById('fsHighlight').value = fs.highlight || 'Grand Residence?';
+      document.getElementById('fsDesc').value = fs.desc || '';
+      document.getElementById('fsBtnText').value = fs.btnText || 'Pelajari Lebih Lanjut';
+      renderFeatures(data.features || []);
+    }
+
+    function saveFeatureSection() {
+      const data = getData();
+      data.featuresSection = {
+        headline: document.getElementById('fsHeadline').value,
+        highlight: document.getElementById('fsHighlight').value,
+        desc:      document.getElementById('fsDesc').value,
+        btnText:   document.getElementById('fsBtnText').value,
+      };
+      saveData(data);
+      toast('Header keunggulan disimpan!');
+    }
+
+    function renderFeatures(features) {
+      const container = document.getElementById('featuresContainer');
+      container.innerHTML = features.map((f, i) => `
+        <div class="flex gap-4 items-start p-4 rounded-xl" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.025)">
+          <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="field-group">
+              <label>Icon</label>
+              <select onchange="updateFeature(${i},'icon',this.value)" class="text-sm">
+                ${ICON_OPTIONS.map(ic => `<option value="${ic}" ${ic===f.icon?'selected':''}>${ic}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Judul</label>
+              <input type="text" value="${f.title}" onchange="updateFeature(${i},'title',this.value)" />
+            </div>
+            <div class="field-group">
+              <label>Deskripsi</label>
+              <input type="text" value="${f.desc}" onchange="updateFeature(${i},'desc',this.value)" />
+            </div>
+          </div>
+          <button onclick="removeFeature(${i})" class="text-red-400 hover:text-red-600 p-2 mt-6"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function updateFeature(i, key, val) {
+      const data = getData();
+      data.features[i][key] = val;
+      saveData(data);
+      toast('Keunggulan diperbarui', 'info');
+    }
+
+    function addFeature() {
+      const data = getData();
+      data.features.push({ icon: 'star', title: 'Fitur Baru', desc: 'Deskripsi fitur baru' });
+      saveData(data);
+      renderFeatures(data.features);
+      updateDashboardStats(data);
+      toast('Keunggulan baru ditambahkan!');
+    }
+
+    function removeFeature(i) {
+      if (!confirm('Hapus keunggulan ini?')) return;
+      const data = getData();
+      data.features.splice(i, 1);
+      saveData(data);
+      renderFeatures(data.features);
+      updateDashboardStats(data);
+      toast('Keunggulan dihapus', 'info');
+    }
+
+    // =====================================================
+    // CLUSTERS
+    // =====================================================
+    function loadClusters(data) {
+      renderClusters(data.clusters || []);
+    }
+
+    function renderClusters(clusters) {
+      const container = document.getElementById('clustersContainer');
+      const allProps = getData().properties || [];
+      if (!clusters.length) {
+        container.innerHTML = `<div class="card text-center py-10 col-span-3"><i data-lucide="grid-3x3" class="w-10 h-10 text-gray-300 mx-auto mb-3"></i><p class="text-gray-400">Belum ada cluster. Klik "Tambah Cluster" untuk memulai.</p></div>`;
+        lucide.createIcons(); return;
+      }
+      container.innerHTML = clusters.map((c, i) => {
+        const count = allProps.filter(p => p.cluster_id === c.id).length;
+        return `
+        <div class="card space-y-4 hover:shadow-md transition-shadow">
+          <div class="relative overflow-hidden rounded-xl" style="height:160px">
+            <img src="${c.thumbnail || ''}" class="w-full h-full object-cover bg-gray-100"
+              onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23f1f5f9%22 width=%22100%22 height=%22100%22/></svg>'" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
+              <span class="text-white text-xs font-medium">${count} Tipe Properti</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h4 class="font-bold text-gray-900">${c.name}</h4>
+                <p class="text-gray-500 text-sm mt-0.5">${c.description || ''}</p>
+                <p class="text-xs text-gray-400 mt-1 font-mono">ID: ${c.id}</p>
+              </div>
+              <div class="flex gap-2 shrink-0">
+                <button onclick="editCluster(${i})" class="btn-outline text-xs px-3 py-1.5">Edit</button>
+                <button onclick="removeCluster(${i})" class="btn-danger text-xs px-3 py-1.5">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function addCluster() { openClusterEditor(-1); }
+    function editCluster(i) { openClusterEditor(i); }
+
+    function removeCluster(i) {
+      if (!confirm('Hapus cluster ini? Properti dengan cluster ini tidak akan terhapus, tetapi tidak akan tampil di cluster manapun.')) return;
+      const data = getData();
+      data.clusters.splice(i, 1);
+      saveData(data);
+      renderClusters(data.clusters);
+      updateDashboardStats(data);
+      toast('Cluster dihapus', 'info');
+    }
+
+    function openClusterEditor(index) {
+      const data = getData();
+      const isNew = index === -1;
+      const c = isNew
+        ? { id: '', name: '', thumbnail: '', description: '' }
+        : { ...(data.clusters || [])[index] };
+
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4';
+      modal.id = 'clusterEditorModal';
+      modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeClusterEditor()"></div>
+        <div class="relative rounded-2xl max-w-lg w-full shadow-2xl z-10 p-6" style="background:var(--dark-card);border:1px solid rgba(201,165,95,0.14)">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold" style="color:#ede8e0">${isNew ? 'Tambah' : 'Edit'} Cluster</h3>
+            <button onclick="closeClusterEditor()" class="p-2 rounded-lg transition-colors" style="color:#5a6a82" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="this.style.background=''"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+          <form id="clusterEditorForm" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group">
+                <label>Nama Cluster</label>
+                <input type="text" id="ce_name" value="${c.name}" placeholder="cth: Cluster Sakura" required />
+              </div>
+              <div class="field-group">
+                <label>ID (unik, huruf kecil)</label>
+                <input type="text" id="ce_id" value="${c.id}" placeholder="cth: sakura" ${isNew ? '' : 'readonly class="bg-gray-50"'} required pattern="[a-z0-9_-]+" title="Huruf kecil, angka, dan tanda hubung" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Deskripsi Singkat</label>
+              <input type="text" id="ce_desc" value="${c.description}" placeholder="cth: Hunian asri dengan suasana alam..." />
+            </div>
+            <div class="field-group">
+              <label>Thumbnail / Cover Image</label>
+              <div class="flex gap-2 mb-2">
+                <input type="text" id="ce_thumb" value="${c.thumbnail}" placeholder="URL gambar atau klik Upload..."
+                  class="flex-1" oninput="document.getElementById('ce_thumb_prev').src=this.value" />
+                <label class="btn-outline flex items-center gap-1.5 px-3 cursor-pointer whitespace-nowrap text-xs">
+                  <i data-lucide="upload" class="w-3.5 h-3.5"></i> Upload
+                  <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event,'ce_thumb',()=>{document.getElementById('ce_thumb_prev').src=document.getElementById('ce_thumb').value})" />
+                </label>
+              </div>
+              <img id="ce_thumb_prev" src="${c.thumbnail}" class="img-preview" onerror="this.style.display='none'" onload="this.style.display='block'" />
+            </div>
+            <div class="pt-2 flex gap-3">
+              <button type="submit" class="btn-primary flex-1 py-3">${isNew ? 'Tambah' : 'Simpan'} Cluster</button>
+              <button type="button" onclick="closeClusterEditor()" class="btn-outline flex-1 py-3">Batal</button>
+            </div>
+          </form>
+        </div>`;
+      document.body.appendChild(modal);
+      lucide.createIcons();
+
+      document.getElementById('clusterEditorForm').onsubmit = (e) => {
+        e.preventDefault();
+        const id = document.getElementById('ce_id').value.trim().toLowerCase().replace(/\s+/g,'-');
+        if (!id) { toast('ID cluster tidak boleh kosong', 'error'); return; }
+        const newCluster = {
+          id,
+          name: document.getElementById('ce_name').value,
+          description: document.getElementById('ce_desc').value,
+          thumbnail: document.getElementById('ce_thumb').value,
+        };
+        const freshData = getData();
+        if (!freshData.clusters) freshData.clusters = [];
+        if (isNew) {
+          if (freshData.clusters.find(cl => cl.id === id)) { toast('ID cluster sudah digunakan', 'error'); return; }
+          freshData.clusters.push(newCluster);
+        } else {
+          freshData.clusters[index] = newCluster;
+        }
+        saveData(freshData);
+        renderClusters(freshData.clusters);
+        updateDashboardStats(freshData);
+        closeClusterEditor();
+        toast(isNew ? 'Cluster ditambahkan!' : 'Cluster diperbarui!');
+      };
+    }
+
+    function closeClusterEditor() {
+      const modal = document.getElementById('clusterEditorModal');
+      if (modal) modal.remove();
+    }
+
+    // =====================================================
+    // PROPERTIES
+    // =====================================================
+    function loadProperties(data) {
+      renderProperties(data.properties || []);
+    }
+
+    function renderProperties(properties) {
+      const container = document.getElementById('propertiesContainer');
+      const clusters = getData().clusters || [];
+      const clusterMap = {};
+      clusters.forEach(c => { clusterMap[c.id] = c.name; });
+
+      container.innerHTML = properties.map((p, i) => {
+        const clusterLabel = p.cluster_id ? (clusterMap[p.cluster_id] || p.cluster_id) : '—';
+        return `
+        <div class="card space-y-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <img src="${p.image}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23f1f5f9%22 width=%22100%22 height=%22100%22/></svg>'" />
+              <div>
+                <h4 class="font-bold text-gray-900">${p.name}</h4>
+                <p class="text-blue-600 font-semibold text-sm">${p.price}</p>
+                <span class="inline-flex items-center gap-1 text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full mt-1">
+                  <i data-lucide="grid-3x3" class="w-3 h-3"></i> ${clusterLabel}
+                </span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="editProperty(${i})" class="btn-outline text-xs px-3 py-1.5">Edit</button>
+              <button onclick="removeProperty(${i})" class="btn-danger text-xs px-3 py-1.5">Hapus</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs text-center">
+            <div class="rounded-lg py-2" style="background:rgba(255,255,255,0.04)"><span class="text-gray-500">${p.bedrooms}</span></div>
+            <div class="rounded-lg py-2" style="background:rgba(255,255,255,0.04)"><span class="text-gray-500">${p.bathrooms}</span></div>
+            <div class="rounded-lg py-2" style="background:rgba(255,255,255,0.04)"><span class="text-gray-500">${p.landArea}</span></div>
+          </div>
+          <p class="text-gray-500 text-xs">${p.desc}</p>
+        </div>`;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function addProperty() {
+      openPropertyEditor(-1);
+    }
+
+    function editProperty(i) {
+      openPropertyEditor(i);
+    }
+
+    function removeProperty(i) {
+      if (!confirm('Hapus properti ini?')) return;
+      const data = getData();
+      data.properties.splice(i, 1);
+      saveData(data);
+      renderProperties(data.properties);
+      updateDashboardStats(data);
+      toast('Properti dihapus', 'info');
+    }
+
+    function openPropertyEditor(index) {
+      const data = getData();
+      const isNew = index === -1;
+      const clusters = data.clusters || [];
+      const p = isNew ? {
+        id: 'type' + Date.now(), cluster_id: clusters[0]?.id || '', name: '', price: '', badge: '', badgeColor: 'blue',
+        availability: 'Tersedia', rating: '5.0', bedrooms: '', bathrooms: '', landArea: '',
+        image: '', gallery: ['','','',''], desc: '',
+        specs: { 'Luas Tanah': '', 'Luas Bangunan': '', 'Kamar Tidur': '', 'Kamar Mandi': '', 'Lantai': '', 'Carport': '', 'Listrik': '', 'Air': '', 'Sertifikat': '' },
+      } : { ...data.properties[index] };
+
+      const specKeys = Object.keys(p.specs || {});
+
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4';
+      modal.id = 'propEditorModal';
+      modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closePropEditor()"></div>
+        <div class="relative rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl z-10 p-6" style="background:var(--dark-card);border:1px solid rgba(201,165,95,0.14)">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold" style="color:#ede8e0">${isNew ? 'Tambah' : 'Edit'} Properti</h3>
+            <button onclick="closePropEditor()" class="p-2 rounded-lg transition-colors" style="color:#5a6a82" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="this.style.background=''"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+          <form id="propEditorForm" class="space-y-4">
+            <div class="field-group">
+              <label>Cluster</label>
+              <select id="pe_cluster_id">
+                <option value="">-- Tanpa Cluster --</option>
+                ${clusters.map(cl => `<option value="${cl.id}" ${p.cluster_id===cl.id?'selected':''}>${cl.name}</option>`).join('')}
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group"><label>Nama Tipe</label><input type="text" id="pe_name" value="${p.name}" required /></div>
+              <div class="field-group"><label>Harga</label><input type="text" id="pe_price" value="${p.price}" required /></div>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="field-group"><label>Badge</label><input type="text" id="pe_badge" value="${p.badge}" /></div>
+              <div class="field-group"><label>Badge Color</label>
+                <select id="pe_badgeColor">
+                  <option value="blue" ${p.badgeColor==='blue'?'selected':''}>Blue</option>
+                  <option value="amber" ${p.badgeColor==='amber'?'selected':''}>Amber</option>
+                  <option value="green" ${p.badgeColor==='green'?'selected':''}>Green</option>
+                  <option value="red" ${p.badgeColor==='red'?'selected':''}>Red</option>
+                </select>
+              </div>
+              <div class="field-group"><label>Ketersediaan</label><input type="text" id="pe_availability" value="${p.availability}" /></div>
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+              <div class="field-group"><label>Rating</label><input type="text" id="pe_rating" value="${p.rating}" /></div>
+              <div class="field-group"><label>Kamar Tidur</label><input type="text" id="pe_bedrooms" value="${p.bedrooms}" /></div>
+              <div class="field-group"><label>Kamar Mandi</label><input type="text" id="pe_bathrooms" value="${p.bathrooms}" /></div>
+              <div class="field-group"><label>Luas Tanah</label><input type="text" id="pe_landArea" value="${p.landArea}" /></div>
+            </div>
+            <div class="field-group">
+              <label>Gambar Utama</label>
+              <div class="flex gap-2 mb-2">
+                <input type="text" id="pe_image" value="${p.image}" placeholder="URL gambar atau upload..." class="flex-1" oninput="document.getElementById('pe_image_preview').src=this.value" />
+                <label class="btn-outline flex items-center gap-1.5 px-3 cursor-pointer whitespace-nowrap text-xs">
+                  <i data-lucide="upload" class="w-3.5 h-3.5"></i> Upload
+                  <input type="file" accept="image/*" class="hidden" onchange="uploadPropImg(event,'pe_image','pe_image_preview')" />
+                </label>
+              </div>
+              <img id="pe_image_preview" src="${p.image}" class="img-preview" onerror="this.style.display='none'" onload="this.style.display='block'" />
+            </div>
+            <div class="field-group"><label>Deskripsi</label><textarea id="pe_desc" rows="3">${p.desc}</textarea></div>
+
+            <h4 class="font-semibold text-sm pt-2" style="color:#8a9ab5;text-transform:uppercase;letter-spacing:0.07em;font-size:0.7rem">Foto Gallery</h4>
+            <div class="grid grid-cols-2 gap-3">
+              ${(p.gallery || ['','','','']).map((g, gi) => `
+              <div class="field-group">
+                <label>Foto ${gi+1}</label>
+                <div class="flex gap-1.5 mb-1.5">
+                  <input type="text" class="pe_gallery flex-1" value="${g}" placeholder="URL atau upload..." oninput="document.getElementById('pe_gal_prev_${gi}').src=this.value" />
+                  <label class="btn-outline flex items-center px-2 cursor-pointer">
+                    <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadPropImg(event,'_gal_${gi}','pe_gal_prev_${gi}')" data-gallery="${gi}" />
+                  </label>
+                </div>
+                <img id="pe_gal_prev_${gi}" src="${g}" class="w-full h-20 object-cover rounded-lg border border-gray-200" onerror="this.style.display='none'" onload="this.style.display='block'" style="display:${g?'block':'none'}" />
+              </div>`).join('')}
+            </div>
+
+            <h4 class="font-semibold text-sm pt-2" style="color:#8a9ab5;text-transform:uppercase;letter-spacing:0.07em;font-size:0.7rem">Spesifikasi</h4>
+            <div class="grid grid-cols-2 gap-3">
+              ${specKeys.map(key => `<div class="field-group"><label>${key}</label><input type="text" class="pe_spec" data-key="${key}" value="${p.specs[key]}" /></div>`).join('')}
+            </div>
+
+            <div class="pt-4 flex gap-3">
+              <button type="submit" class="btn-primary flex-1 py-3">${isNew ? 'Tambah' : 'Simpan'} Properti</button>
+              <button type="button" onclick="closePropEditor()" class="btn-outline flex-1 py-3">Batal</button>
+            </div>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      lucide.createIcons();
+
+      document.getElementById('propEditorForm').onsubmit = (e) => {
+        e.preventDefault();
+        const newProp = {
+          id: p.id,
+          cluster_id: document.getElementById('pe_cluster_id').value,
+          name: document.getElementById('pe_name').value,
+          price: document.getElementById('pe_price').value,
+          badge: document.getElementById('pe_badge').value,
+          badgeColor: document.getElementById('pe_badgeColor').value,
+          availability: document.getElementById('pe_availability').value,
+          rating: document.getElementById('pe_rating').value,
+          bedrooms: document.getElementById('pe_bedrooms').value,
+          bathrooms: document.getElementById('pe_bathrooms').value,
+          landArea: document.getElementById('pe_landArea').value,
+          image: document.getElementById('pe_image').value,
+          desc: document.getElementById('pe_desc').value,
+          gallery: Array.from(document.querySelectorAll('.pe_gallery')).map(el => el.value),
+          specs: {},
+        };
+        document.querySelectorAll('.pe_spec').forEach(i => { newProp.specs[i.dataset.key] = i.value; });
+
+        const freshData = getData();
+        if (isNew) {
+          freshData.properties.push(newProp);
+        } else {
+          freshData.properties[index] = newProp;
+        }
+        saveData(freshData);
+        renderProperties(freshData.properties);
+        updateDashboardStats(freshData);
+        closePropEditor();
+        toast(isNew ? 'Properti ditambahkan!' : 'Properti diperbarui!');
+      };
+    }
+
+    function closePropEditor() {
+      const modal = document.getElementById('propEditorModal');
+      if (modal) modal.remove();
+    }
+
+    async function uploadPropImg(event, inputId, previewId) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const label = event.target.closest('label');
+      const originalHtml = label.innerHTML;
+      label.innerHTML = '<span class="text-xs text-gray-400">Uploading...</span>';
+      label.style.pointerEvents = 'none';
+
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const res = await fetch('/api/upload', { method: 'POST', headers: getAuthHeaders(), body: formData });
+        const result = await res.json();
+
+        if (result.success) {
+          // Gallery inputs use class .pe_gallery, find by data-gallery index
+          if (inputId.startsWith('_gal_')) {
+            const gi = parseInt(inputId.replace('_gal_', ''));
+            const inputs = document.querySelectorAll('.pe_gallery');
+            if (inputs[gi]) inputs[gi].value = result.url;
+          } else {
+            const input = document.getElementById(inputId);
+            if (input) input.value = result.url;
+          }
+          const preview = document.getElementById(previewId);
+          if (preview) { preview.src = result.url; preview.style.display = 'block'; }
+          toast('Gambar berhasil diunggah!');
+        } else {
+          toast(result.message || 'Upload gagal', 'error');
+        }
+      } catch(e) {
+        toast('Terjadi kesalahan koneksi', 'error');
+      } finally {
+        label.innerHTML = originalHtml;
+        label.style.pointerEvents = '';
+        event.target.value = '';
+      }
+    }
+
+    // =====================================================
+    // TESTIMONIALS
+    // =====================================================
+    function loadTestimonials(data) {
+      renderTestimonials(data.testimonials || []);
+    }
+
+    function renderTestimonials(testimonials) {
+      const container = document.getElementById('testimonialsContainer');
+      container.innerHTML = testimonials.map((t, i) => `
+        <div class="card space-y-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <img src="${t.image}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23dbeafe%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%233b82f6%22>${t.name[0]}</text></svg>'" />
+              <div>
+                <h4 class="font-bold text-gray-900 text-sm">${t.name}</h4>
+                <p class="text-gray-500 text-xs">${t.role}</p>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="editTestimonial(${i})" class="btn-outline text-xs px-3 py-1.5">Edit</button>
+              <button onclick="removeTestimonial(${i})" class="btn-danger text-xs px-3 py-1.5">Hapus</button>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm">"${t.text}"</p>
+          <div class="flex gap-1">${'★'.repeat(t.rating)}${'☆'.repeat(5-t.rating)}</div>
+        </div>
+      `).join('');
+    }
+
+    function addTestimonial() { editTestimonial(-1); }
+
+    function editTestimonial(index) {
+      const data = getData();
+      const isNew = index === -1;
+      const t = isNew ? { name: '', role: '', text: '', image: '', rating: 5 } : { ...data.testimonials[index] };
+
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4';
+      modal.id = 'testEditorModal';
+      modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeTestEditor()"></div>
+        <div class="relative rounded-2xl max-w-lg w-full shadow-2xl z-10 p-6" style="background:var(--dark-card);border:1px solid rgba(201,165,95,0.14)">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-bold">${isNew ? 'Tambah' : 'Edit'} Testimoni</h3>
+            <button onclick="closeTestEditor()" class="p-2 rounded-lg transition-colors" style="color:#5a6a82" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="this.style.background=''"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+          <form id="testEditorForm" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group"><label>Nama</label><input type="text" id="te_name" value="${t.name}" required /></div>
+              <div class="field-group"><label>Role</label><input type="text" id="te_role" value="${t.role}" /></div>
+            </div>
+            <div class="field-group"><label>Testimoni</label><textarea id="te_text" rows="4" required>${t.text}</textarea></div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group"><label>Foto URL</label><input type="text" id="te_image" value="${t.image}" /></div>
+              <div class="field-group"><label>Rating (1-5)</label><input type="number" id="te_rating" value="${t.rating}" min="1" max="5" /></div>
+            </div>
+            <div class="pt-2 flex gap-3">
+              <button type="submit" class="btn-primary flex-1 py-3">${isNew ? 'Tambah' : 'Simpan'}</button>
+              <button type="button" onclick="closeTestEditor()" class="btn-outline flex-1 py-3">Batal</button>
+            </div>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      lucide.createIcons();
+
+      document.getElementById('testEditorForm').onsubmit = (e) => {
+        e.preventDefault();
+        const newT = {
+          name: document.getElementById('te_name').value,
+          role: document.getElementById('te_role').value,
+          text: document.getElementById('te_text').value,
+          image: document.getElementById('te_image').value,
+          rating: parseInt(document.getElementById('te_rating').value) || 5,
+        };
+        const freshData = getData();
+        if (isNew) { freshData.testimonials.push(newT); } else { freshData.testimonials[index] = newT; }
+        saveData(freshData);
+        renderTestimonials(freshData.testimonials);
+        updateDashboardStats(freshData);
+        closeTestEditor();
+        toast(isNew ? 'Testimoni ditambahkan!' : 'Testimoni diperbarui!');
+      };
+    }
+
+    function closeTestEditor() { const m = document.getElementById('testEditorModal'); if(m) m.remove(); }
+
+    function removeTestimonial(i) {
+      if (!confirm('Hapus testimoni ini?')) return;
+      const data = getData();
+      data.testimonials.splice(i, 1);
+      saveData(data);
+      renderTestimonials(data.testimonials);
+      updateDashboardStats(data);
+      toast('Testimoni dihapus', 'info');
+    }
+
+    // =====================================================
+    // LOCATION
+    // =====================================================
+    function loadLocation(data) {
+      const loc = data.location || {};
+      document.getElementById('locMapUrl').value = loc.mapUrl || '';
+      renderFacilities(loc.facilities || []);
+    }
+
+    function renderFacilities(facilities) {
+      const container = document.getElementById('facilitiesContainer');
+      container.innerHTML = facilities.map((f, i) => `
+        <div class="flex gap-3 items-center p-3 rounded-xl" style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.025)">
+          <div class="flex-1 grid grid-cols-4 gap-3">
+            <div class="field-group"><label class="text-xs">Icon</label>
+              <select onchange="updateFacility(${i},'icon',this.value)" class="text-xs py-1.5">
+                ${['graduation-cap','heart-pulse','shopping-bag','train-front','utensils','church','building','car','trees','baby'].map(ic => `<option value="${ic}" ${ic===f.icon?'selected':''}>${ic}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field-group"><label class="text-xs">Nama</label><input type="text" value="${f.name}" onchange="updateFacility(${i},'name',this.value)" class="text-xs py-1.5" /></div>
+            <div class="field-group"><label class="text-xs">Jarak</label><input type="text" value="${f.distance}" onchange="updateFacility(${i},'distance',this.value)" class="text-xs py-1.5" /></div>
+            <div class="field-group"><label class="text-xs">Warna</label>
+              <select onchange="updateFacility(${i},'color',this.value)" class="text-xs py-1.5">
+                ${['blue','red','purple','green','orange','cyan','amber','pink'].map(c => `<option value="${c}" ${c===f.color?'selected':''}>${c}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <button onclick="removeFacility(${i})" class="text-red-400 hover:text-red-600 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function updateFacility(i, key, val) {
+      const data = getData();
+      data.location.facilities[i][key] = val;
+      saveData(data);
+    }
+
+    function addFacility() {
+      const data = getData();
+      data.location.facilities = data.location.facilities || [];
+      data.location.facilities.push({ icon: 'building', name: 'Fasilitas Baru', distance: '5 menit', color: 'blue' });
+      saveData(data);
+      renderFacilities(data.location.facilities);
+      updateDashboardStats(data);
+      toast('Fasilitas ditambahkan!');
+    }
+
+    function removeFacility(i) {
+      if (!confirm('Hapus fasilitas ini?')) return;
+      const data = getData();
+      data.location.facilities.splice(i, 1);
+      saveData(data);
+      renderFacilities(data.location.facilities);
+      updateDashboardStats(data);
+    }
+
+    function saveLocation(e) {
+      e.preventDefault();
+      const data = getData();
+      data.location.mapUrl = document.getElementById('locMapUrl').value;
+      // Facilities already saved via updateFacility
+      saveData(data);
+      toast('Lokasi berhasil disimpan!');
+    }
+
+    // =====================================================
+    // CTA
+    // =====================================================
+    function loadCta(data) {
+      const c = data.cta || {};
+      document.getElementById('ctaBadge').value = c.badge || '';
+      document.getElementById('ctaHeadline1').value = c.headline1 || '';
+      document.getElementById('ctaHighlight').value = c.highlight || '';
+      document.getElementById('ctaSubheadline').value = c.subheadline || '';
+      document.getElementById('ctaBackground').value = c.backgroundImage || '';
+      document.getElementById('ctaBackgroundPreview').src = c.backgroundImage || '';
+      renderCtaBadges(c.trustBadges || []);
+    }
+
+    function renderCtaBadges(badges) {
+      const container = document.getElementById('ctaBadgesContainer');
+      container.innerHTML = badges.map((b, i) => `
+        <div class="flex items-center gap-2 mb-2">
+          <input type="text" value="${b}" class="cta-badge-input flex-1" style="padding:0.5rem 0.75rem;border:1px solid #e2e8f0;border-radius:0.5rem;font-size:0.875rem;" />
+          <button type="button" onclick="removeCtaBadge(${i})" class="text-red-400 hover:text-red-600 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addCtaBadge() {
+      const data = getData();
+      data.cta.trustBadges = data.cta.trustBadges || [];
+      data.cta.trustBadges.push('New Badge');
+      saveData(data);
+      renderCtaBadges(data.cta.trustBadges);
+    }
+
+    function removeCtaBadge(i) {
+      const data = getData();
+      data.cta.trustBadges.splice(i, 1);
+      saveData(data);
+      renderCtaBadges(data.cta.trustBadges);
+    }
+
+    function saveCta(e) {
+      e.preventDefault();
+      const data = getData();
+      const badgeInputs = document.querySelectorAll('.cta-badge-input');
+      data.cta = {
+        badge: document.getElementById('ctaBadge').value,
+        headline1: document.getElementById('ctaHeadline1').value,
+        highlight: document.getElementById('ctaHighlight').value,
+        subheadline: document.getElementById('ctaSubheadline').value,
+        backgroundImage: document.getElementById('ctaBackground').value,
+        trustBadges: Array.from(badgeInputs).map(i => i.value),
+      };
+      saveData(data);
+      toast('CTA section berhasil disimpan!');
+    }
+
+    // =====================================================
+    // EXPORT / IMPORT / RESET
+    // =====================================================
+    async function exportData() {
+      try {
+        const res = await fetch('/api/cms/export', { headers: getAuthHeaders() });
+        if (res.status === 401) { handleUnauthorized(); return; }
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'cms-data-export.json'; a.click();
+        URL.revokeObjectURL(url);
+        toast('Data berhasil di-export!');
+      } catch(e) {
+        toast('Gagal export data', 'error');
+      }
+    }
+
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        try {
+          const imported = JSON.parse(ev.target.result);
+          const res = await fetch('/api/cms/import', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+            body: JSON.stringify(imported),
+          });
+          if (res.ok) {
+            await loadAllPages();
+            toast('Data berhasil di-import!');
+          } else {
+            toast('Gagal import data', 'error');
+          }
+        } catch(err) {
+          toast('File JSON tidak valid!', 'error');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    async function resetAllData() {
+      if (!confirm('Reset semua data ke default? Semua perubahan akan hilang.')) return;
+      try {
+        const res = await fetch('/api/cms/reset', { method: 'POST', headers: getAuthHeaders() });
+        if (res.ok) {
+          await loadAllPages();
+          toast('Data berhasil di-reset ke default!', 'info');
+        }
+      } catch(e) {
+        toast('Gagal reset data', 'error');
+      }
+    }
+
+    // =====================================================
+    // INIT
+    // =====================================================
+    lucide.createIcons();
+
+    // Check if already logged in
+    if (checkAuth()) {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('adminLayout').classList.remove('hidden');
+      document.getElementById('adminLayout').classList.add('flex');
+      loadAllPages();
+    }
+  </script>
+</body>
+</html>

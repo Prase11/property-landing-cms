@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5" />
+  <meta name="theme-color" content="#080c14" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Grand Residence — Hunian Nyaman di Lokasi Strategis</title>
+  <meta name="description" content="Grand Residence menawarkan hunian modern dan nyaman di lokasi strategis. Mulai dari Rp 500 jutaan." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --gold: #c9a55f;
+      --gold-light: #e0bc80;
+      --dark-1: #080c14;
+      --dark-2: #0a0e18;
+      --dark-3: #0f1520;
+      --dark-card: #141c2a;
+      --dark-card-hover: #1a2438;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark-1); }
+    ::-webkit-scrollbar-thumb { background: rgba(201,165,95,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      background: var(--dark-1);
+      color: #f0ede8;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    /* Remove tap highlight on iOS / Android */
+    a, button, [role="button"] {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    /* Min 44px touch targets on mobile */
+    @media (max-width: 768px) {
+      a.btn-gold, a.btn-outline-gold, button { min-height: 44px; }
+    }
+    /* Fluid typography */
+    .fluid-h1 { font-size: clamp(2.25rem, 8vw, 4.5rem); line-height: 1.08; }
+    .fluid-h2 { font-size: clamp(1.875rem, 6vw, 3rem); line-height: 1.15; }
+    .fluid-lead { font-size: clamp(0.95rem, 3.5vw, 1.125rem); }
+    /* Safe area utilities (iPhone notch / Android cutouts) */
+    .safe-top    { padding-top: env(safe-area-inset-top); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .safe-x      { padding-left: max(env(safe-area-inset-left), 0px); padding-right: max(env(safe-area-inset-right), 0px); }
+    /* Better scroll behavior on iOS */
+    body { overscroll-behavior-y: none; }
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    /* Hero on landscape mobile (e.g. phone rotated) — keep usable */
+    @media (max-height: 500px) and (orientation: landscape) {
+      #hero { min-height: 100vh; }
+      #hero h1 { font-size: clamp(1.5rem, 5vw, 2.5rem) !important; }
+      #hero .pt-24 { padding-top: 5rem; }
+    }
+
+    .gold-text { color: var(--gold); }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #c9a55f 0%, #e0bc80 50%, #c9a55f 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Navbar */
+    #navbar { transition: all 0.3s ease; }
+    #navbar.scrolled {
+      background: rgba(8,12,20,0.95) !important;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,165,95,0.1);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+    #navbar.menu-open {
+      background: rgba(8,12,20,0.98) !important;
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(201,165,95,0.1);
+    }
+    /* Mobile menu slide animation */
+    #mobileMenu {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease;
+    }
+    #mobileMenu.open {
+      max-height: 320px;
+      opacity: 1;
+    }
+    #mobileMenu a {
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s;
+    }
+    #mobileMenu.open a:nth-child(1) { opacity:1; transform:none; transition-delay:0.08s; }
+    #mobileMenu.open a:nth-child(2) { opacity:1; transform:none; transition-delay:0.13s; }
+    #mobileMenu.open a:nth-child(3) { opacity:1; transform:none; transition-delay:0.18s; }
+    #mobileMenu.open a:nth-child(4) { opacity:1; transform:none; transition-delay:0.23s; }
+    #mobileMenu.open a:nth-child(5) { opacity:1; transform:none; transition-delay:0.28s; }
+
+    /* Hero */
+    .hero-overlay {
+      background: linear-gradient(to right, rgba(8,12,20,0.93) 0%, rgba(8,12,20,0.72) 55%, rgba(8,12,20,0.25) 100%);
+    }
+    @media (max-width: 768px) {
+      .hero-overlay {
+        background: linear-gradient(180deg, rgba(8,12,20,0.85) 0%, rgba(8,12,20,0.7) 50%, rgba(8,12,20,0.92) 100%);
+      }
+    }
+
+    /* Section label pill */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(201,165,95,0.1); border: 1px solid rgba(201,165,95,0.25);
+      color: var(--gold); padding: 5px 14px; border-radius: 100px;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* Buttons */
+    .btn-gold {
+      background: linear-gradient(135deg, #c9a55f, #e0bc80);
+      color: #080c14; font-weight: 600; transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #e0bc80, #c9a55f);
+      box-shadow: 0 8px 28px rgba(201,165,95,0.4); transform: translateY(-1px);
+    }
+    .btn-outline-gold {
+      border: 1px solid rgba(201,165,95,0.45); color: var(--gold); transition: all 0.3s ease;
+    }
+    .btn-outline-gold:hover {
+      border-color: var(--gold); background: rgba(201,165,95,0.08);
+    }
+
+    /* Cards */
+    .card-dark {
+      background: var(--dark-card);
+      border: 1px solid rgba(201,165,95,0.08);
+      transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .card-dark:hover {
+      border-color: rgba(201,165,95,0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,165,95,0.1);
+    }
+
+    /* Image zoom */
+    .img-zoom img { transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .img-zoom:hover img { transform: scale(1.06); }
+
+    /* Scroll reveal — base */
+    .reveal         { opacity: 0; transform: translateY(36px);   transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-left    { opacity: 0; transform: translateX(-48px);  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-right   { opacity: 0; transform: translateX(48px);   transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-scale   { opacity: 0; transform: scale(0.88);        transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.active, .reveal-left.active, .reveal-right.active, .reveal-scale.active {
+      opacity: 1; transform: none;
+    }
+    /* Stagger children */
+    .stagger-children > * {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .stagger-children.active > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+    .stagger-children.active > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.15s; }
+    .stagger-children.active > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.25s; }
+    .stagger-children.active > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.35s; }
+    .stagger-children.active > *:nth-child(5) { opacity:1; transform:none; transition-delay: 0.45s; }
+    .stagger-children.active > *:nth-child(n+6) { opacity:1; transform:none; transition-delay: 0.55s; }
+    /* Delay helpers */
+    .delay-100 { transition-delay: 0.1s !important; }
+    .delay-200 { transition-delay: 0.2s !important; }
+    .delay-300 { transition-delay: 0.3s !important; }
+    .delay-400 { transition-delay: 0.4s !important; }
+    /* Gold line underline that animates in */
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .animate-line::after {
+      content: ''; display: block; height: 2px; width: 48px; margin-top: 14px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0); transform-origin: left;
+    }
+    .animate-line.active::after { animation: lineGrow 0.55s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+
+    /* Feature icon */
+    .feature-icon-box {
+      background: rgba(201,165,95,0.08); border: 1px solid rgba(201,165,95,0.15);
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover .feature-icon-box {
+      background: rgba(201,165,95,0.18); border-color: rgba(201,165,95,0.4);
+    }
+
+    /* Testimonial quote mark */
+    .quote-mark { font-family: 'Cormorant Garamond', serif; font-size: 5rem; line-height: 1; color: rgba(201,165,95,0.2); }
+
+    /* Stats bar */
+    .stats-glass {
+      background: rgba(14,19,30,0.8); backdrop-filter: blur(20px);
+      border: 1px solid rgba(201,165,95,0.15); border-bottom: none;
+    }
+
+    /* ── Cluster cards ── */
+    .cluster-card { cursor: pointer; transition: transform 0.15s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+    .cluster-card:hover { transform: translateY(-5px); border-color: rgba(201,165,95,0.3) !important; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .cluster-card:hover .cluster-btn { box-shadow: 0 8px 28px rgba(201,165,95,0.45); transform: translateY(-1px); }
+    .cluster-card:hover .cluster-img { transform: scale(1.06); }
+    .cluster-card:active { transform: scale(0.97) !important; transition: transform 0.1s ease !important; }
+    .cluster-img { transition: transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+
+    /* ── Property cards ── */
+    .prop-card { transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s ease, border-color 0.32s ease; }
+    .prop-card:hover { transform: translateY(-7px); box-shadow: 0 24px 55px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,165,95,0.2); border-color: rgba(201,165,95,0.35) !important; }
+    .prop-card .prop-img { transition: transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+    .prop-card:hover .prop-img { transform: scale(1.07); }
+
+    /* ── Card entrance / exit keyframes ── */
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+    @keyframes cardExit {
+      from { opacity: 1; transform: translateY(0)     scale(1);    filter: blur(0px); }
+      to   { opacity: 0; transform: translateY(-16px) scale(0.97); filter: blur(1px); }
+    }
+    .card-enter-anim { animation: cardEnter 0.5s cubic-bezier(0.34, 1.35, 0.64, 1) both; }
+    .card-exit-anim  { animation: cardExit  0.22s ease forwards; }
+
+    /* ── Step header morph ── */
+    @keyframes titleMorph {
+      0%   { opacity: 1; transform: translateY(0); }
+      40%  { opacity: 0; transform: translateY(-10px); }
+      60%  { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .title-morph { animation: titleMorph 0.45s ease forwards; }
+
+    /* ── Breadcrumb entrance ── */
+    @keyframes breadcrumbIn { from { opacity:0; transform:translateX(-12px); } to { opacity:1; transform:translateX(0); } }
+    .breadcrumb-enter { animation: breadcrumbIn 0.38s cubic-bezier(0.34,1.3,0.64,1) 0.1s both; }
+
+    /* ── Button ripple ── */
+    .ripple-btn { position: relative; overflow: hidden; }
+    @keyframes rippleEffect { from { transform:scale(0); opacity:0.45; } to { transform:scale(4); opacity:0; } }
+    .ripple-btn .ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,0.3); width:40px; height:40px; margin:-20px; pointer-events:none; animation: rippleEffect 0.55s ease forwards; }
+
+    /* ── Modal ── */
+    .modal-backdrop { background: rgba(4,6,12,0.88); backdrop-filter: blur(8px); }
+    @keyframes modalEnter { from { opacity:0; transform:scale(0.93) translateY(18px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .modal-inner { animation: modalEnter 0.35s cubic-bezier(0.34, 1.3, 0.64, 1); }
+    .gallery-thumb { border: 2px solid transparent; transition: all 0.2s; transform-origin: center; }
+    .gallery-thumb.active { border-color: var(--gold); transform: scale(1.05); }
+    .gallery-thumb:hover { border-color: rgba(201,165,95,0.5); transform: scale(1.05); }
+
+    /* WhatsApp float */
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .wa-float { animation: float 3s ease-in-out infinite; box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
+    .wa-float:hover { animation: none; transform: scale(1.1); box-shadow: 0 12px 35px rgba(37,211,102,0.6); }
+
+    @keyframes modalIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    .modal-enter { animation: modalIn 0.3s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-5 lg:px-16 pt-4 pb-3 lg:py-5 safe-x" style="padding-top: max(env(safe-area-inset-top), 1rem);">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="#hero">
+      <span class="text-2xl font-serif font-semibold tracking-tight brand-logo-text">Grand<span class="gold-text">Residence</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#tipe-hunian" class="text-sm text-gray-400 hover:text-white transition-colors">Tipe Hunian</a>
+      <a href="#keunggulan" class="text-sm text-gray-400 hover:text-white transition-colors">Keunggulan</a>
+      <a href="#testimoni" class="text-sm text-gray-400 hover:text-white transition-colors">Testimoni</a>
+      <a href="#lokasi" class="text-sm text-gray-400 hover:text-white transition-colors">Lokasi</a>
+    </div>
+    <a href="#cta" class="btn-gold px-5 py-2.5 rounded-lg text-sm hidden md:inline-block">Konsultasi Gratis</a>
+    <button id="mobileMenuBtn" class="md:hidden text-gray-400 hover:text-white">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+  <div id="mobileMenu" class="md:hidden border-t border-white/5 mt-3">
+    <div class="flex flex-col gap-1 py-3">
+      <a href="#tipe-hunian" class="px-2 py-2.5 text-sm text-gray-300 hover:text-white">Tipe Hunian</a>
+      <a href="#keunggulan" class="px-2 py-2.5 text-sm text-gray-300 hover:text-white">Keunggulan</a>
+      <a href="#testimoni" class="px-2 py-2.5 text-sm text-gray-300 hover:text-white">Testimoni</a>
+      <a href="#lokasi" class="px-2 py-2.5 text-sm text-gray-300 hover:text-white">Lokasi</a>
+      <a href="#cta" class="btn-gold px-5 py-2.5 rounded-lg text-sm text-center mt-1">Konsultasi Gratis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<section id="hero" class="relative flex items-center overflow-hidden" style="min-height: 100vh; min-height: 100dvh;">
+  <div class="absolute inset-0">
+    <img id="heroBgImg" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
+         alt="Hero" class="w-full h-full object-cover" fetchpriority="high" decoding="async" />
+    <div class="hero-overlay absolute inset-0"></div>
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 80% 50%, rgba(201,165,95,0.04) 0%, transparent 60%)"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 w-full pt-24 sm:pt-28 pb-56 sm:pb-48 safe-x">
+    <div class="max-w-2xl">
+      <div class="section-label mb-5 sm:mb-7">
+        <i data-lucide="sparkles" class="w-3 h-3"></i>
+        <span id="heroBadgeText">Unit Terbatas — Booking Sekarang</span>
+      </div>
+      <h1 class="font-serif fluid-h1 font-light mb-5 sm:mb-6">
+        <span id="heroHeadlineText">Hunian Nyaman<br />di <span class="gold-gradient-text italic">Lokasi Strategis</span></span>
+      </h1>
+      <p id="heroSubheadlineText" class="text-gray-400 fluid-lead leading-relaxed mb-7 sm:mb-9 max-w-lg">
+        Wujudkan rumah impian Anda di kawasan berkembang dengan fasilitas lengkap, keamanan 24 jam, dan akses mudah ke pusat kota.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12">
+        <a href="#tipe-hunian" class="btn-gold px-7 py-3.5 rounded-xl text-sm flex items-center justify-center gap-2">
+          Lihat Unit <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#lokasi" class="btn-outline-gold px-7 py-3.5 rounded-xl text-sm flex items-center justify-center">Lihat Lokasi</a>
+      </div>
+      <div id="heroTrustBadgesContainer" class="flex flex-wrap gap-x-5 gap-y-2.5">
+        <div class="flex items-center gap-2 text-white/55 text-xs sm:text-sm"><i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> Legalitas Lengkap</div>
+        <div class="flex items-center gap-2 text-white/55 text-xs sm:text-sm"><i data-lucide="award" class="w-4 h-4 gold-text"></i> Developer Terpercaya</div>
+        <div class="flex items-center gap-2 text-white/55 text-xs sm:text-sm"><i data-lucide="users" class="w-4 h-4 text-blue-400"></i> 200+ Unit Terjual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="absolute bottom-0 left-0 right-0 z-10 safe-x">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
+      <div class="stats-glass rounded-t-2xl px-5 sm:px-8 py-5 sm:py-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-5 sm:gap-y-0 sm:divide-x sm:divide-white/10">
+            <div class="text-center sm:pr-8">
+              <p class="font-serif text-2xl gold-text font-semibold stat-count" data-target="200" data-suffix="+">200+</p>
+              <p class="text-xs text-gray-500 mt-0.5">Unit Terjual</p>
+            </div>
+            <div class="text-center sm:px-8">
+              <p class="font-serif text-2xl gold-text font-semibold stat-count" data-target="98" data-suffix="%">98%</p>
+              <p class="text-xs text-gray-500 mt-0.5">Kepuasan Klien</p>
+            </div>
+            <div class="text-center sm:px-8">
+              <p class="font-serif text-2xl gold-text font-semibold stat-count" data-target="10" data-suffix="+">10+</p>
+              <p class="text-xs text-gray-500 mt-0.5">Tahun Pengalaman</p>
+            </div>
+            <div class="text-center sm:pl-8 col-span-2 sm:col-span-1">
+              <p id="heroPriceText" class="font-serif text-lg gold-text font-semibold">Mulai dari Rp 500 Jutaan</p>
+              <p class="text-xs text-gray-500 mt-0.5">Harga Terjangkau</p>
+            </div>
+          </div>
+          <a href="#cta" class="btn-gold px-6 py-3 rounded-xl text-sm flex items-center justify-center gap-2 whitespace-nowrap">
+            Konsultasi Gratis <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== PROPERTIES (2-step: Cluster → Type) ======== -->
+<section id="tipe-hunian" style="background:var(--dark-2)" class="py-16 sm:py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 safe-x">
+
+    <!-- Shared section header -->
+    <div class="text-center mb-16 reveal animate-line">
+      <div class="section-label mb-6"><i data-lucide="building-2" class="w-3 h-3"></i> <span id="propertyStepLabel">Tipe Hunian</span></div>
+      <h2 class="font-serif fluid-h2 font-light mt-5 mb-4" id="propertyStepTitle">
+        Pilih <span class="gold-gradient-text italic">Cluster Anda</span>
+      </h2>
+      <p class="text-gray-500 max-w-md mx-auto text-sm" id="propertyStepSubtitle">Temukan kawasan hunian yang paling sesuai dengan gaya hidup Anda.</p>
+    </div>
+
+    <!-- Step 1: Cluster Grid -->
+    <div id="clusterStep">
+      <div id="clustersGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- Step 2: Properties for selected cluster -->
+    <div id="propertyStep" style="display:none">
+      <!-- Breadcrumb + back button -->
+      <div class="flex items-center gap-3 mb-10">
+        <button onclick="backToClusterStep()" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center transition-all" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          </span>
+          Semua Cluster
+        </button>
+        <span class="text-gray-700">/</span>
+        <span class="text-sm font-medium gold-text" id="selectedClusterName"></span>
+      </div>
+      <!-- Filtered property cards -->
+      <div id="clusterPropertiesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======== FEATURES ======== -->
+<section id="keunggulan" style="background:var(--dark-1)" class="py-16 sm:py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 safe-x">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+      <div class="reveal-left lg:sticky lg:top-28">
+        <div class="section-label mb-6"><i data-lucide="star" class="w-3 h-3"></i> Keunggulan Kami</div>
+        <h2 id="featureSectionTitle" class="font-serif fluid-h2 font-light mt-5 mb-6">
+          Mengapa Memilih<br /><span class="gold-gradient-text italic">Grand Residence?</span>
+        </h2>
+        <p id="featureSectionDesc" class="text-gray-500 leading-relaxed mb-8 text-sm">
+          Kami menghadirkan hunian modern dengan standar kualitas tertinggi, dilengkapi berbagai fasilitas yang membuat hidup Anda lebih nyaman dan berkualitas.
+        </p>
+        <a id="featureSectionBtn" href="#cta" class="btn-gold px-6 py-3 rounded-xl text-sm inline-flex items-center gap-2">
+          Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 features-grid reveal-right stagger-children">
+        <!-- Filled by JS -->
+        <div class="feature-card card-dark rounded-2xl p-6"><div class="feature-icon-box w-10 h-10 rounded-xl flex items-center justify-center mb-4"><i data-lucide="map-pin" class="w-4 h-4 gold-text"></i></div><h3 class="font-medium text-white text-sm mb-2">Lokasi Strategis</h3><p class="text-gray-500 text-xs leading-relaxed">Dekat pusat perbelanjaan, sekolah, rumah sakit, dan akses tol.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== TESTIMONIALS ======== -->
+<section id="testimoni" style="background:var(--dark-2)" class="py-16 sm:py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 safe-x">
+    <div class="text-center mb-16 reveal animate-line">
+      <div class="section-label mb-6"><i data-lucide="message-square" class="w-3 h-3"></i> Testimoni</div>
+      <h2 class="font-serif fluid-h2 font-light mt-5">
+        Apa Kata <span class="gold-gradient-text italic">Penghuni Kami</span>
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- ======== LOCATION ======== -->
+<section id="lokasi" style="background:var(--dark-1)" class="py-16 sm:py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 safe-x">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <div class="reveal-left">
+        <div class="section-label mb-6"><i data-lucide="map-pin" class="w-3 h-3"></i> Lokasi</div>
+        <h2 class="font-serif fluid-h2 font-light mt-5 mb-6">
+          Akses <span class="gold-gradient-text italic">Mudah & Strategis</span>
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed mb-8">Berada di kawasan berkembang dengan akses mudah ke berbagai fasilitas umum di sekitar perumahan.</p>
+        <div id="facilitiesGrid" class="grid grid-cols-2 gap-3"></div>
+      </div>
+      <div class="reveal-right">
+        <div class="card-dark rounded-2xl overflow-hidden" style="height:420px">
+          <iframe id="locationMap"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2!2d106.82!3d-6.21!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzYuMCJTIDEwNsKwNDknMTIuMCJF!5e0!3m2!1sid!2sid!4v1"
+            width="100%" height="100%" style="border:0;filter:invert(90%) hue-rotate(180deg) brightness(0.85) contrast(0.9);"
+            allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== CTA ======== -->
+<section id="cta" class="py-20 sm:py-24 md:py-28 relative overflow-hidden">
+  <div class="absolute inset-0">
+    <img id="ctaBgImg" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=80"
+         alt="" class="w-full h-full object-cover" />
+    <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(8,12,20,0.96) 0%,rgba(8,12,20,0.88) 60%,rgba(8,12,20,0.75) 100%)"></div>
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 50% 100%, rgba(201,165,95,0.06) 0%, transparent 60%)"></div>
+  </div>
+  <div class="relative z-10 max-w-3xl mx-auto px-6 lg:px-16 text-center reveal-scale">
+    <div class="section-label mb-6"><i data-lucide="sparkles" class="w-3 h-3"></i> <span id="ctaBadgeText">Promo Terbatas — Diskon hingga 10%</span></div>
+    <h2 class="font-serif fluid-h1 font-light mt-5 mb-6 leading-tight">
+      <span id="ctaHeadlineText">Jangan Lewatkan Kesempatan</span><br />
+      <span class="gold-gradient-text italic" id="ctaHighlightText">Rumah Impian</span>
+    </h2>
+    <p id="ctaSubText" class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed">
+      Hubungi tim marketing kami sekarang untuk mendapatkan penawaran terbaik, simulasi KPR, dan jadwal kunjungan ke lokasi.
+    </p>
+    <div id="ctaTrustBadges" class="flex flex-wrap justify-center gap-3 mb-10">
+      <span class="border border-white/10 text-gray-500 text-xs px-4 py-1.5 rounded-full">SHM & IMB Lengkap</span>
+      <span class="border border-white/10 text-gray-500 text-xs px-4 py-1.5 rounded-full">KPR Semua Bank</span>
+      <span class="border border-white/10 text-gray-500 text-xs px-4 py-1.5 rounded-full">Free Biaya Notaris</span>
+      <span class="border border-white/10 text-gray-500 text-xs px-4 py-1.5 rounded-full">DP Ringan</span>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a id="ctaWaBtn" href="https://wa.me/628123456789" target="_blank"
+         class="btn-gold px-8 py-4 rounded-xl text-sm inline-flex items-center justify-center gap-3">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Hubungi via WhatsApp
+      </a>
+      <a id="ctaPhoneBtn" href="tel:08123456789" class="btn-outline-gold px-8 py-4 rounded-xl text-sm inline-flex items-center justify-center gap-3">
+        <i data-lucide="phone" class="w-4 h-4"></i> Hubungi via Telepon
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer style="background:#060a10;border-top:1px solid rgba(255,255,255,0.04); padding-bottom: env(safe-area-inset-bottom);">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 py-12 sm:py-16 safe-x">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <a href="#hero" class="mb-5 inline-block">
+          <span class="text-2xl font-serif font-semibold brand-logo-text">Grand<span class="gold-text">Residence</span></span>
+        </a>
+        <p id="footerDesc" class="text-gray-500 text-sm leading-relaxed mb-6 max-w-xs">Miliki hunian modern dari Grand Residence. Wujudkan rumah impian keluarga Anda bersama kami.</p>
+        <div id="footerSocial" class="flex gap-3">
+          <a id="footerFb" href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-yellow-500 transition-all" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+          <a id="footerIg" href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-yellow-500 transition-all" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          <a id="footerYt" href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-yellow-500 transition-all" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs font-semibold text-white uppercase tracking-widest mb-5">Navigasi</h4>
+        <ul class="space-y-3">
+          <li><a href="#hero" class="text-sm text-gray-500 hover:text-yellow-500 transition-colors">Beranda</a></li>
+          <li><a href="#tipe-hunian" class="text-sm text-gray-500 hover:text-yellow-500 transition-colors">Tipe Hunian</a></li>
+          <li><a href="#keunggulan" class="text-sm text-gray-500 hover:text-yellow-500 transition-colors">Keunggulan</a></li>
+          <li><a href="#testimoni" class="text-sm text-gray-500 hover:text-yellow-500 transition-colors">Testimoni</a></li>
+          <li><a href="#lokasi" class="text-sm text-gray-500 hover:text-yellow-500 transition-colors">Lokasi</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-xs font-semibold text-white uppercase tracking-widest mb-5">Kontak</h4>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2.5 text-sm text-gray-500"><i data-lucide="phone" class="w-4 h-4 gold-text mt-0.5 shrink-0"></i><span id="footerPhone">0812-3456-789</span></li>
+          <li class="flex items-start gap-2.5 text-sm text-gray-500"><i data-lucide="mail" class="w-4 h-4 gold-text mt-0.5 shrink-0"></i><span id="footerEmail">info@grandresidence.id</span></li>
+          <li class="flex items-start gap-2.5 text-sm text-gray-500"><i data-lucide="clock" class="w-4 h-4 gold-text mt-0.5 shrink-0"></i><span id="footerHours">Senin - Minggu: 08.00 - 17.00</span></li>
+          <li class="flex items-start gap-2.5 text-sm text-gray-500"><i data-lucide="map-pin" class="w-4 h-4 gold-text mt-0.5 shrink-0"></i><span id="footerAddress">Jl. Raya Serpong No. 123, Tangerang Selatan</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style="border-top:1px solid rgba(255,255,255,0.05)">
+      <p id="footerCopyright" class="text-xs text-gray-600">&copy; 2025 Grand Residence. All rights reserved.</p>
+      <a href="/admin.html" class="text-xs text-gray-700 hover:text-gray-500 transition-colors">Admin CMS</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ======== PROPERTY MODAL ======== -->
+<div id="propertyModal" class="fixed inset-0 z-[100] hidden items-end sm:items-center justify-center modal-backdrop p-0 sm:p-4">
+  <div class="w-full max-w-3xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl border-t sm:border border-white/10 modal-enter" style="background:var(--dark-card); padding-bottom: env(safe-area-inset-bottom);">
+    <div class="flex items-center justify-between p-4 sm:p-6 border-b border-white/8 sticky top-0 z-10" style="background:var(--dark-card)">
+      <h3 id="modalTitle" class="font-serif text-xl sm:text-2xl font-light pr-3"></h3>
+      <button onclick="closeModal()" class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    <div class="p-4 sm:p-6 pb-0">
+      <div class="relative overflow-hidden rounded-xl mb-3 h-[240px] sm:h-[420px]">
+        <img id="modalMainImage" src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div id="modalThumbs" class="flex gap-2 mb-3 overflow-x-auto"></div>
+    </div>
+    <div class="p-4 sm:p-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <p id="modalPrice" class="font-serif text-2xl gold-text font-semibold"></p>
+          <span id="modalBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-blue-600 text-white"></span>
+        </div>
+        <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
+        <a id="modalWaBtn" href="#" target="_blank" class="btn-gold w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> Tanya via WhatsApp
+        </a>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-4">Spesifikasi</p>
+        <div id="modalSpecs" class="space-y-0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp FAB -->
+<a id="waFab" href="https://wa.me/628123456789" target="_blank"
+   class="wa-float fixed z-50 w-14 h-14 bg-[#25d366] rounded-full flex items-center justify-center text-white"
+   style="bottom: max(env(safe-area-inset-bottom), 1.25rem); right: max(env(safe-area-inset-right), 1.25rem);">
+  <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  let propertyData = {};
+  let allProperties = [];
+  let allClusters = [];
+  let cmsWhatsapp = '628123456789';
+  let cmsBrandName = 'Grand Residence';
+
+  function waLink(text) {
+    return `https://wa.me/${cmsWhatsapp}?text=${encodeURIComponent(text)}`;
+  }
+
+  async function getCmsData() {
+    try {
+      const r = await fetch('/api/cms');
+      if (r.ok) return await r.json();
+    } catch(e) {}
+    return null;
+  }
+
+  async function applyCmsData() {
+    const cms = await getCmsData();
+    if (!cms) { lucide.createIcons(); initReveal(); return; }
+
+    const s = cms.settings || {};
+    cmsWhatsapp = s.whatsapp || '628123456789';
+    cmsBrandName = s.brandName || 'Grand Residence';
+
+    // Browser tab title
+    document.title = `${cmsBrandName} — Hunian Nyaman di Lokasi Strategis`;
+
+    // Brand name in all logo spots
+    const [first, ...rest] = cmsBrandName.split(' ');
+    document.querySelectorAll('.brand-logo-text').forEach(el => {
+      el.innerHTML = `${first}<span class="gold-text">${rest.join(' ')}</span>`;
+    });
+
+    // Footer contact
+    if (s.phone) { document.getElementById('footerPhone').textContent = s.phone; document.getElementById('ctaPhoneBtn').href = 'tel:' + s.phone.replace(/[^0-9+]/g,''); }
+    if (s.email) document.getElementById('footerEmail').textContent = s.email;
+    if (s.hours) document.getElementById('footerHours').textContent = s.hours;
+    if (s.address) document.getElementById('footerAddress').textContent = s.address;
+    document.getElementById('footerCopyright').innerHTML = `&copy; ${new Date().getFullYear()} ${cmsBrandName}. All rights reserved.`;
+
+    // Social links
+    if (s.facebook) document.getElementById('footerFb').href = s.facebook;
+    if (s.instagram) document.getElementById('footerIg').href = s.instagram;
+    if (s.youtube) document.getElementById('footerYt').href = s.youtube;
+
+    // WA links
+    const waMsg = waLink('Halo, saya ingin info tentang ' + cmsBrandName);
+    document.getElementById('waFab').href = waMsg;
+    document.getElementById('ctaWaBtn').href = waLink('Halo, saya ingin konsultasi tentang ' + cmsBrandName);
+
+    // --- HERO ---
+    const hero = cms.hero || {};
+    if (hero.backgroundImage) document.getElementById('heroBgImg').src = hero.backgroundImage;
+    if (hero.badge) document.getElementById('heroBadgeText').textContent = hero.badge;
+    if (hero.headline || hero.highlight) {
+      document.getElementById('heroHeadlineText').innerHTML =
+        `${hero.headline || 'Hunian Nyaman'}<br />di <span class="gold-gradient-text italic">${hero.highlight || 'Lokasi Strategis'}</span>`;
+    }
+    if (hero.subheadline) document.getElementById('heroSubheadlineText').textContent = hero.subheadline;
+    if (hero.priceText) document.getElementById('heroPriceText').textContent = hero.priceText;
+    if (hero.trustBadges && hero.trustBadges.length) {
+      const icons = ['shield-check','award','users'];
+      const colors = ['text-green-400','gold-text','text-blue-400'];
+      document.getElementById('heroTrustBadgesContainer').innerHTML = hero.trustBadges.map((b,i) =>
+        `<div class="flex items-center gap-2 text-white/55 text-sm">
+          <i data-lucide="${icons[i%3]}" class="w-4 h-4 ${colors[i%3]}"></i> ${b}
+        </div>`
+      ).join('');
+    }
+
+    // --- FEATURES SECTION HEADER ---
+    if (cms.featuresSection) {
+      const fs = cms.featuresSection;
+      if (fs.headline !== undefined || fs.highlight !== undefined) {
+        document.getElementById('featureSectionTitle').innerHTML =
+          `${fs.headline || 'Mengapa Memilih'}<br /><span class="gold-gradient-text italic">${fs.highlight || 'Grand Residence?'}</span>`;
+      }
+      if (fs.desc) document.getElementById('featureSectionDesc').textContent = fs.desc;
+      if (fs.btnText) document.getElementById('featureSectionBtn').innerHTML =
+        `${fs.btnText} <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+    }
+
+    // --- FEATURES ---
+    if (cms.features && cms.features.length) {
+      document.querySelector('.features-grid').innerHTML = cms.features.map(f =>
+        `<div class="feature-card card-dark rounded-2xl p-6">
+          <div class="feature-icon-box w-10 h-10 rounded-xl flex items-center justify-center mb-4">
+            <i data-lucide="${f.icon}" class="w-4 h-4 gold-text"></i>
+          </div>
+          <h3 class="font-medium text-white text-sm mb-2">${f.title}</h3>
+          <p class="text-gray-500 text-xs leading-relaxed">${f.desc}</p>
+        </div>`
+      ).join('');
+    }
+
+    // --- PROPERTIES ---
+    if (cms.properties && cms.properties.length) {
+      propertyData = {};
+      allProperties = cms.properties;
+      cms.properties.forEach(p => {
+        propertyData[p.id] = { name:p.name, price:p.price, badge:p.badge, badgeColor:p.badgeColor, images:p.gallery||[p.image], specs:p.specs||{}, desc:p.desc||'' };
+      });
+    }
+
+    // --- CLUSTERS ---
+    if (cms.clusters && cms.clusters.length) {
+      allClusters = cms.clusters;
+      renderClusterStep();
+    } else {
+      // Fallback: no clusters defined — show all properties flat
+      document.getElementById('clusterStep').innerHTML = `<div id="propertiesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>`;
+      renderPropertyCards(allProperties, document.getElementById('propertiesGrid'));
+      document.getElementById('propertyStepTitle').innerHTML = `Pilih Rumah <span class="gold-gradient-text italic">Impian Anda</span>`;
+      document.getElementById('propertyStepSubtitle').textContent = 'Tipe hunian yang dirancang untuk keluarga modern Anda.';
+    }
+
+    // --- TESTIMONIALS ---
+    if (cms.testimonials && cms.testimonials.length) {
+      document.querySelector('.testimonials-grid').innerHTML = cms.testimonials.map(t =>
+        `<div class="card-dark rounded-2xl p-8 reveal active">
+          <div class="quote-mark mb-1">"</div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6 -mt-4">${t.text}</p>
+          <div class="flex items-center gap-3">
+            <img src="${t.image}" alt="${t.name}" class="w-10 h-10 rounded-full object-cover" style="ring:1px solid rgba(201,165,95,0.3)"
+                 onerror="this.style.display='none'" />
+            <div class="flex-1">
+              <p class="font-medium text-sm text-white">${t.name}</p>
+              <p class="text-xs text-gray-500">${t.role}</p>
+            </div>
+            <div class="flex gap-0.5">${'<i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-current"></i>'.repeat(t.rating)}</div>
+          </div>
+        </div>`
+      ).join('');
+    }
+
+    // --- LOCATION ---
+    if (cms.location) {
+      if (cms.location.mapUrl) document.getElementById('locationMap').src = cms.location.mapUrl;
+      if (cms.location.facilities && cms.location.facilities.length) {
+        const clr = { blue:'text-blue-400', red:'text-red-400', purple:'text-purple-400', green:'text-emerald-400', orange:'text-orange-400', cyan:'text-cyan-400', amber:'text-amber-400' };
+        document.getElementById('facilitiesGrid').innerHTML = cms.location.facilities.map(f =>
+          `<div class="card-dark rounded-xl p-4 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.05)">
+              <i data-lucide="${f.icon}" class="w-4 h-4 ${clr[f.color]||'text-gray-400'}"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-white">${f.name}</p>
+              <p class="text-xs text-gray-500">${f.distance}</p>
+            </div>
+          </div>`
+        ).join('');
+      }
+    }
+
+    // --- CTA ---
+    if (cms.cta) {
+      const c = cms.cta;
+      if (c.badge) document.getElementById('ctaBadgeText').textContent = c.badge;
+      if (c.headline1) document.getElementById('ctaHeadlineText').textContent = c.headline1;
+      if (c.highlight) document.getElementById('ctaHighlightText').textContent = c.highlight;
+      if (c.subheadline) document.getElementById('ctaSubText').textContent = c.subheadline;
+      if (c.backgroundImage) document.getElementById('ctaBgImg').src = c.backgroundImage;
+      if (c.trustBadges && c.trustBadges.length) {
+        document.getElementById('ctaTrustBadges').innerHTML = c.trustBadges.map(b =>
+          `<span class="border text-gray-500 text-xs px-4 py-1.5 rounded-full" style="border-color:rgba(255,255,255,0.1)">${b}</span>`
+        ).join('');
+      }
+    }
+
+    lucide.createIcons();
+    initReveal();
+    initStatsCounter();
+  }
+
+  // ---- CLUSTER STEP ----
+  const badgeClr = { blue:'bg-blue-600 text-white', amber:'bg-amber-500 text-gray-900', green:'bg-emerald-500 text-white', red:'bg-red-500 text-white' };
+
+  function renderClusterStep() {
+    const grid = document.getElementById('clustersGrid');
+    if (!grid) return;
+    grid.innerHTML = allClusters.map((c, i) => {
+      const count = allProperties.filter(p => p.cluster_id === c.id).length;
+      return `<div class="cluster-card card-dark rounded-2xl overflow-hidden card-enter-anim"
+                   style="animation-delay:${i * 0.11}s"
+                   onclick="selectCluster('${c.id}', this)">
+        <div class="overflow-hidden relative" style="height:230px">
+          <img src="${c.thumbnail}" alt="${c.name}" class="cluster-img w-full h-full object-cover" loading="lazy" decoding="async" />
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(8,12,20,0.97) 0%,rgba(8,12,20,0.45) 55%,rgba(8,12,20,0.05) 100%)"></div>
+          <div class="absolute top-4 left-4">
+            <span class="section-label text-xs py-1.5 px-3">${count} Tipe</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="font-serif text-2xl font-light text-white mb-1">${c.name}</h3>
+            <p class="text-gray-400 text-sm leading-snug">${c.description}</p>
+          </div>
+        </div>
+        <div class="px-6 py-4 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.05)">
+          <div class="flex items-center gap-1.5 text-gray-500 text-xs">
+            <i data-lucide="home" class="w-3.5 h-3.5 gold-text"></i> ${count} Tipe Hunian
+          </div>
+          <button class="cluster-btn btn-gold px-4 py-2 rounded-lg text-xs flex items-center gap-1.5">
+            Pilih <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+    lucide.createIcons();
+  }
+
+  function selectCluster(clusterId, el) {
+    const cluster = allClusters.find(c => c.id === clusterId);
+    if (!cluster) return;
+    const filtered = allProperties.filter(p => p.cluster_id === clusterId);
+
+    // Press feedback on clicked card
+    if (el) {
+      el.style.transform = 'scale(0.96)';
+      el.style.transition = 'transform 0.12s ease';
+      setTimeout(() => { el.style.transform = ''; el.style.transition = ''; }, 140);
+    }
+
+    // Section title morph
+    const titleEl = document.getElementById('propertyStepTitle');
+    titleEl.classList.add('title-morph');
+    setTimeout(() => {
+      titleEl.innerHTML = `${cluster.name} — <span class="gold-gradient-text italic">Tipe Hunian</span>`;
+      titleEl.classList.remove('title-morph');
+    }, 225);
+
+    // Stagger-out cluster cards
+    const cards = Array.from(document.querySelectorAll('#clustersGrid > div'));
+    cards.forEach((card, i) => {
+      card.style.transition = `opacity 0.2s ease ${i * 0.07}s, transform 0.2s ease ${i * 0.07}s`;
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-16px) scale(0.97)';
+    });
+
+    const staggerOut = cards.length * 70 + 180;
+    setTimeout(() => {
+      document.getElementById('clusterStep').style.display = 'none';
+      cards.forEach(c => { c.style.opacity = ''; c.style.transform = ''; c.style.transition = ''; });
+
+      // Update breadcrumb & show property step
+      document.getElementById('selectedClusterName').textContent = cluster.name;
+      const grid = document.getElementById('clusterPropertiesGrid');
+      renderPropertyCards(filtered, grid);
+      document.getElementById('propertyStep').style.display = 'block';
+
+      // Breadcrumb entrance
+      const bc = document.getElementById('propertyStep').querySelector('.flex.items-center.gap-3');
+      if (bc) { bc.classList.add('breadcrumb-enter'); setTimeout(() => bc.classList.remove('breadcrumb-enter'), 500); }
+
+      lucide.createIcons();
+    }, staggerOut);
+  }
+
+  function backToClusterStep() {
+    // Stagger-out property cards
+    const cards = Array.from(document.querySelectorAll('#clusterPropertiesGrid > div'));
+    cards.forEach((card, i) => {
+      card.style.transition = `opacity 0.17s ease ${i * 0.05}s, transform 0.17s ease ${i * 0.05}s`;
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+    });
+
+    const staggerOut = cards.length * 50 + 180;
+    setTimeout(() => {
+      document.getElementById('propertyStep').style.display = 'none';
+      cards.forEach(c => { c.style.opacity = ''; c.style.transform = ''; c.style.transition = ''; });
+
+      // Restore title
+      document.getElementById('propertyStepTitle').innerHTML =
+        `Pilih <span class="gold-gradient-text italic">Cluster Anda</span>`;
+
+      // Re-render cluster step with stagger entrance
+      renderClusterStep();
+      document.getElementById('clusterStep').style.display = 'block';
+      lucide.createIcons();
+    }, staggerOut);
+  }
+
+  function addRipple(e) {
+    const btn = e.currentTarget;
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const rect = btn.getBoundingClientRect();
+    r.style.left = (e.clientX - rect.left) + 'px';
+    r.style.top  = (e.clientY - rect.top) + 'px';
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+  }
+
+  function renderPropertyCards(properties, container) {
+    if (!container) return;
+    container.innerHTML = properties.map((p, i) =>
+      `<div class="card-dark rounded-2xl overflow-hidden prop-card card-enter-anim" style="animation-delay:${i * 0.1}s">
+        <div class="overflow-hidden relative" style="height:215px">
+          <img src="${p.image}" alt="${p.name}" class="prop-img w-full h-full object-cover" loading="lazy" decoding="async" />
+          <div class="absolute top-4 left-4"><span class="${badgeClr[p.badgeColor]||badgeClr.blue} text-xs font-bold px-3 py-1.5 rounded-full">${p.badge}</span></div>
+          <div class="absolute top-4 right-4"><span class="bg-white/10 backdrop-blur text-white text-xs px-3 py-1.5 rounded-full border border-white/20">${p.availability}</span></div>
+          <div class="absolute bottom-4 right-4 px-3 py-1.5 rounded-lg" style="background:rgba(14,19,30,0.88);backdrop-filter:blur(8px);border:1px solid rgba(201,165,95,0.3)">
+            <p class="text-xs gold-text font-bold">${p.price}</p>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-serif text-xl font-medium">${p.name}</h3>
+            <div class="flex items-center gap-1 text-amber-400 text-xs"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i> ${p.rating}</div>
+          </div>
+          <div class="grid grid-cols-3 gap-2.5 mb-6">
+            <div class="text-center rounded-xl py-2.5" style="background:rgba(255,255,255,0.04)"><i data-lucide="bed-double" class="w-4 h-4 text-gray-400 mx-auto mb-1"></i><p class="text-xs text-gray-500">${p.bedrooms}</p></div>
+            <div class="text-center rounded-xl py-2.5" style="background:rgba(255,255,255,0.04)"><i data-lucide="bath" class="w-4 h-4 text-gray-400 mx-auto mb-1"></i><p class="text-xs text-gray-500">${p.bathrooms}</p></div>
+            <div class="text-center rounded-xl py-2.5" style="background:rgba(255,255,255,0.04)"><i data-lucide="ruler" class="w-4 h-4 text-gray-400 mx-auto mb-1"></i><p class="text-xs text-gray-500">${p.landArea}</p></div>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="openModal('${p.id}')" onmousedown="addRipple(event)"
+              class="ripple-btn flex-1 text-sm py-2.5 rounded-xl transition-all text-gray-300 hover:text-white"
+              style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08)">Detail</button>
+            <a href="${waLink('Halo, saya tertarik dengan '+p.name+' '+cmsBrandName)}" target="_blank"
+              class="flex-1 btn-gold py-2.5 rounded-xl text-sm text-center">Booking</a>
+          </div>
+        </div>
+      </div>`
+    ).join('');
+  }
+
+  // ---- MODAL ----
+  let modalImages = [];
+
+  function openModal(id) {
+    const p = propertyData[id];
+    if (!p) return;
+    modalImages = p.images || [];
+
+    document.getElementById('modalTitle').textContent = p.name;
+    document.getElementById('modalPrice').textContent = p.price;
+    document.getElementById('modalDesc').textContent = p.desc;
+
+    const b = document.getElementById('modalBadge');
+    b.textContent = p.badge || '';
+    const bc = { blue:'bg-blue-600 text-white', amber:'bg-amber-500 text-gray-900', green:'bg-emerald-500 text-white' };
+    b.className = `text-xs font-bold px-3 py-1 rounded-full ${bc[p.badgeColor]||bc.blue}`;
+
+    setModalImg(0);
+    document.getElementById('modalThumbs').innerHTML = modalImages.map((img,i) =>
+      `<img src="${img}" class="gallery-thumb w-20 h-16 object-cover rounded-lg cursor-pointer ${i===0?'active':''}" onclick="setModalImg(${i})" />`
+    ).join('');
+
+    document.getElementById('modalSpecs').innerHTML = Object.entries(p.specs||{}).map(([k,v]) =>
+      `<div class="flex items-center justify-between py-2" style="border-bottom:1px solid rgba(255,255,255,0.05)">
+        <span class="text-gray-500 text-xs">${k}</span>
+        <span class="text-white text-xs font-medium">${v}</span>
+      </div>`
+    ).join('');
+
+    document.getElementById('modalWaBtn').href = waLink('Halo, saya tertarik dengan ' + p.name + ' ' + cmsBrandName);
+
+    const modal = document.getElementById('propertyModal');
+    modal.classList.remove('hidden'); modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    lucide.createIcons();
+  }
+
+  function setModalImg(i) {
+    document.getElementById('modalMainImage').src = modalImages[i];
+    document.querySelectorAll('.gallery-thumb').forEach((el,j) => el.classList.toggle('active', i===j));
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('propertyModal');
+    modal.classList.add('hidden'); modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('propertyModal').addEventListener('click', e => { if (e.target===e.currentTarget) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
+
+  // ---- NAVBAR ----
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ---- MOBILE MENU ----
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu    = document.getElementById('mobileMenu');
+  const navbar        = document.getElementById('navbar');
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    navbar.classList.remove('menu-open');
+    mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+    lucide.createIcons();
+  }
+
+  mobileMenuBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    navbar.classList.toggle('menu-open', isOpen);
+    mobileMenuBtn.innerHTML = isOpen
+      ? '<i data-lucide="x" class="w-6 h-6"></i>'
+      : '<i data-lucide="menu" class="w-6 h-6"></i>';
+    lucide.createIcons();
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', closeMobileMenu)
+  );
+
+  // ---- SCROLL REVEAL ----
+  function initReveal() {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('active');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children')
+      .forEach(el => { if (!el.classList.contains('active')) obs.observe(el); });
+  }
+
+  // ---- STATS COUNTER ----
+  function animateCounter(el, target, suffix, duration) {
+    const start = performance.now();
+    const isFloat = target % 1 !== 0;
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = isFloat ? (ease * target).toFixed(1) : Math.round(ease * target);
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initStatsCounter() {
+    const statsBar = document.querySelector('.stats-glass');
+    if (!statsBar) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        obs.unobserve(e.target);
+        e.target.querySelectorAll('.stat-count').forEach((el, i) => {
+          const target = parseFloat(el.dataset.target);
+          const suffix = el.dataset.suffix || '';
+          if (!isNaN(target)) animateCounter(el, target, suffix, 1400 + i * 150);
+        });
+      });
+    }, { threshold: 0.5 });
+    obs.observe(statsBar);
+  }
+
+  // ---- INIT ----
+  document.addEventListener('DOMContentLoaded', () => { applyCmsData(); });
+</script>
+</body>
+</html>
