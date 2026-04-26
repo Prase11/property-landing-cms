@@ -8,9 +8,3 @@ services:
     envVars:
       - key: JWT_SECRET
         generateValue: true
-      - key: DATA_DIR
-        value: /var/data
-    disk:
-      name: cms-data
-      mountPath: /var/data
-      sizeGB: 1
