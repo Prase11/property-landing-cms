@@ -347,8 +347,15 @@ app.use((err, req, res, next) => {
 // ===================================
 // START SERVER
 // ===================================
-app.listen(PORT, '0.0.0.0', () => {
-  migratePassword();
-  console.log(`\n  ✅ Grand Residence CMS Server running on port ${PORT}`);
-  console.log(`  📁 Data dir : ${DATA_DIR}`);
-});
+migratePassword();
+
+// Local / Render / Railway: start a real server
+// Vercel: skip listen, export the app for serverless
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n  ✅ Grand Residence CMS Server running on port ${PORT}`);
+    console.log(`  📁 Data dir : ${DATA_DIR}`);
+  });
+}
+
+module.exports = app;
