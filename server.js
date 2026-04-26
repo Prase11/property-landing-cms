@@ -6,17 +6,18 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'cms-data.json');
+const PORT = process.env.PORT || 3000;
+const DATA_DIR = process.env.DATA_DIR || __dirname;
+const DATA_FILE = path.join(DATA_DIR, 'cms-data.json');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const JWT_SECRET = process.env.JWT_SECRET || 'gr-cms-secret-change-in-production';
 const JWT_EXPIRES = '8h';
 
 // Configure Multer for image uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const dir = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-    cb(null, dir);
+    if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+    cb(null, UPLOADS_DIR);
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname));
@@ -36,7 +37,7 @@ const upload = multer({
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(__dirname));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 // ===================================
 // DEFAULT CMS DATA
@@ -346,12 +347,8 @@ app.use((err, req, res, next) => {
 // ===================================
 // START SERVER
 // ===================================
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   migratePassword();
-  console.log(`\n  ✅ Grand Residence CMS Server`);
-  console.log(`  ─────────────────────────────`);
-  console.log(`  🌐 Landing Page : http://localhost:${PORT}/`);
-  console.log(`  🔧 Admin CMS    : http://localhost:${PORT}/admin.html`);
-  console.log(`  📡 API          : http://localhost:${PORT}/api/cms`);
-  console.log(`  ─────────────────────────────\n`);
+  console.log(`\n  ✅ Grand Residence CMS Server running on port ${PORT}`);
+  console.log(`  📁 Data dir : ${DATA_DIR}`);
 });
